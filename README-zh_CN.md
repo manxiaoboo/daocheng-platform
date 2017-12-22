@@ -4,15 +4,17 @@
 
 # ng-alain
 
-[Ng-zorro-antd](https://github.com/NG-ZORRO/ng-zorro-antd) admin panel front-end framework.
+一套基于 [Ng-zorro-antd](https://github.com/NG-ZORRO/ng-zorro-antd)【ANT DESIGN】 的企业后台模板。
 
-更多信息见[中文 README](README-zh_CN.md)
+[README in English](README.md)
 
 [DEMO](https://cipchk.github.io/ng-alain/)
 
-## Quick start
+## 快速入门
 
-Make sure you have Node version >= 6.9.0 and NPM >= 3 or higher.
+确保 `node` 版本 >= 6.9.0 且 `npm` 版本 >= 3 以上。
+
+`ng-alain` 本身并非组件库，只是一个单纯的企业后台模板，你可以**直接克隆**到你的本地，然后立即进入实际开发。
 
 ```bash
 # clone ng-alain repo
@@ -34,30 +36,31 @@ npm start
 npm run serve:hmr
 ```
 
-> [vscode] recommended install [ng-zorro-vscode](https://marketplace.visualstudio.com/items?itemName=cipchk.ng-zorro-vscode) plugins, that includes `nz-alain-*` snippets.
+> [vscode] 建议安装 [ng-zorro-vscode](https://marketplace.visualstudio.com/items?itemName=cipchk.ng-zorro-vscode) 插件，含 `nz-alain-*` 代码片断。
+
 
 ## Links
 
-+ [Document](http://ng-alain.com)
++ [文档](http://ng-alain.com)
 + [@delon](https://github.com/cipchk/delon)
 + [DEMO](https://cipchk.github.io/ng-alain/)
 
-## Features
+## 特性
 
-+ `ng-zorro-antd` based
-+ Responsive Layout
-+ I18n
-+ ACL
-+ Lazy load Assets
-+ UI Router States
-+ Multiple color options
-+ Less preprocessor
-+ Well organized & commented code
-+ Simple upgrade
-+ Hot Module Replacement
-+ Support [Docker](_documents/docker.md) deploy
++ 基于 `ng-zorro-antd`
++ 响应式
++ 国际化
++ ACL访问控制
++ 延迟加载及良好的启用画面
++ 良好的UI路由设计
++ 十种颜色版本
++ Less预编译
++ 良好的目录组织结构
++ 简单升级
++ 模块热替换
++ 支持[Docker](_documents/docker.md)部署
 
-## App Shots
+## 应用截图
 
 ![desktop](_screenshot/desktop.png)
 ![ipad](_screenshot/ipad.png)
