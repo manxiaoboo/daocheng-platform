@@ -6,6 +6,7 @@ import { Component } from '@angular/core';
     styleUrls: ['./user.component.less']
 })
 export class ProUserLayoutComponent {
+    year = new Date().getFullYear()
     links = [
         {
             title: '帮助',

@@ -2,14 +2,15 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { SettingsService } from '@delon/theme';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
+import { DCAuthService } from '../../../services/auth.service';
 
 @Component({
     selector: 'header-user',
     template: `
     <nz-dropdown nzPlacement="bottomRight">
         <div class="item d-flex align-items-center px-sm" nz-dropdown>
-            <nz-avatar [nzSrc]="settings.user.avatar" nzSize="small" class="mr-sm"></nz-avatar>
-            {{settings.user.name}}
+            <nz-avatar [nzIcon]="'user'" nzSize="small" class="mr-sm"></nz-avatar>
+            {{user.nickName}}
         </div>
         <div nz-menu class="width-sm">
             <div nz-menu-item [nzDisable]="true"><i class="anticon anticon-user mr-sm"></i>个人中心</div>
@@ -21,22 +22,15 @@ import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
     `
 })
 export class HeaderUserComponent implements OnInit {
+    user;
     constructor(
         public settings: SettingsService,
         private router: Router,
+        private auth:DCAuthService,
         @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService) {}
 
     ngOnInit(): void {
-        this.tokenService.change().subscribe((res: any) => {
-            this.settings.setUser(res);
-        });
-        const token = this.tokenService.get() || {
-            token: 'nothing',
-            name: 'Admin',
-            avatar: './assets/img/zorro.svg',
-            email: 'cipchk@qq.com'
-        };
-        this.tokenService.set(token);
+       this.user = this.auth.user;
     }
 
     logout() {

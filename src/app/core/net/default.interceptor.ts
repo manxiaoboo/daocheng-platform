@@ -19,7 +19,7 @@ export class DefaultInterceptor implements HttpInterceptor {
 
     private goLogin() {
         const router = this.injector.get(Router);
-        this.injector.get(Router).navigate([ '/login' ]);
+        this.injector.get(Router).navigate([ '/pro/user/login' ]);
     }
 
     intercept(req: HttpRequest<any>, next: HttpHandler):

@@ -4,6 +4,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpModule, JsonpModule } from '@angular/http';
+
 
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
@@ -14,9 +16,14 @@ import { StartupService } from './core/services/startup.service';
 import { DefaultInterceptor } from '@core/net/default.interceptor';
 import { AlainAuthModule, SimpleInterceptor } from '@delon/auth';
 
+
+
 // i18n
 import { I18NService } from './core/i18n/i18n.service';
 import { ALAIN_I18N_TOKEN } from '@delon/theme';
+
+import { DCDataService } from './services/data.service';
+import { DCAuthService } from './services/auth.service';
 
 import { registerLocaleData } from '@angular/common';
 import localeZhHans from '@angular/common/locales/zh-Hans';
@@ -39,6 +46,7 @@ export function StartupServiceFactory(startupService: StartupService): Function 
         BrowserModule,
         BrowserAnimationsModule,
         SharedModule.forRoot(),
+        HttpModule,
         CoreModule,
         LayoutModule,
         RoutesModule,
@@ -60,6 +68,8 @@ export function StartupServiceFactory(startupService: StartupService): Function 
         { provide: HTTP_INTERCEPTORS, useClass: SimpleInterceptor, multi: true},
         { provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true},
         { provide: ALAIN_I18N_TOKEN, useClass: I18NService, multi: false },
+        DCDataService,
+        DCAuthService,
         StartupService,
         {
             provide: APP_INITIALIZER,

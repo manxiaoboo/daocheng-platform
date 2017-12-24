@@ -8,7 +8,7 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class I18NService implements AlainI18NService {
 
-    private _default = 'en';
+    private _default = 'zh-CN';
 
     private _langs = [
         { code: 'en', text: 'English' },
