@@ -1,6 +1,10 @@
 import { LayoutComponent } from '../layout/layout.component';
 import { LayoutFullScreenComponent } from '../layout/fullscreen/fullscreen.component';
 import { DashboardWorkplaceComponent } from './dashboard/workplace/workplace.component';
+
+//verify
+import { VerifyUserComponent } from './verify/verify-user/verify-user.component';
+
 // pro
 import { ProUserLayoutComponent } from '../layout/pro/user/user.component';
 import { ProUserLoginComponent } from './pro/user/login/login.component';
@@ -15,7 +19,8 @@ export const routes = [
         resolve:[AuthResolveService],
         children: [
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-            { path: 'dashboard', component: DashboardWorkplaceComponent, data: { translate: 'dashboard_workplace' } },
+            { path: 'dashboard', component: DashboardWorkplaceComponent, data: { translate: '工作台' } },
+            { path: 'verify-user', component:VerifyUserComponent, data:{translate: '用户审核'} },
             { path: 'pro', loadChildren: './pro/pro.module#ProModule' }
         ]
     },

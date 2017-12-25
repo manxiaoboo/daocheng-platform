@@ -16,8 +16,18 @@
             {
                 "text": "工作台",
                 "link": "/dashboard",
-                "translate": "dashboard_workplace",
+                "translate": "工作台",
                 "icon": "icon-speedometer"
+            },
+            {
+                "text": "审核",
+                "translate": "审核",
+                "icon": "icon-check",
+                "children": [{
+                    "text": "用户审核",
+                    "link": "/verify-user",
+                    "translate": "用户审核"
+                }]
             }
             ]
     }]

@@ -5,6 +5,7 @@ import { environment } from '../../environments/environment';
 
 import { routes } from './routes';
 import { DashboardWorkplaceComponent } from './dashboard/workplace/workplace.component';
+import { VerifyUserComponent } from './verify/verify-user/verify-user.component';
 
 // pro
 import { ProUserLoginComponent } from './pro/user/login/login.component';
@@ -21,6 +22,7 @@ import { AuthResolveService } from './auth.resolve';
     ],
     declarations: [
         DashboardWorkplaceComponent,
+        VerifyUserComponent,
         // pro
         ProUserLoginComponent,
         ProUserRegisterComponent,

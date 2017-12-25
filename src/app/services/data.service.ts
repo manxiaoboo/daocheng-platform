@@ -26,7 +26,7 @@ export class DCDataService {
             return;
         }
         let headers = new Headers();
-        headers.append("Content-Type", "application/json");
+        // headers.append("Content-Type", "application/json");
         headers.append("Authorization", "Bearer " + authToken);
 
         return headers;
