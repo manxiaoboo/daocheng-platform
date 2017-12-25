@@ -67,63 +67,23 @@
         </div>
     </form>
     <div class="mb-md">
-        <button nz-button (click)="add()" [nzType]="'primary'" [nzSize]="'large'">
-            <i class="anticon anticon-plus"></i><span>新建</span>
-        </button>
-        <ng-container *ngIf="selectedRows.length > 0">
-            <button nz-button [nzSize]="'large'">批量操作</button>
-            <nz-dropdown [nzPlacement]="'bottomLeft'">
-                <button nz-button nz-dropdown [nzSize]="'large'">
-                    更多操作 <i class="anticon anticon-down"></i>
-                </button>
-                <ul nz-menu>
-                    <li nz-menu-item (click)="remove()">删除</li>
-                    <li nz-menu-item (click)="approval()">批量审批</li>
-                </ul>
-            </nz-dropdown>
-        </ng-container>
-    </div>
-    <div class="mb-md">
         <nz-alert [nzType]="'info'" [nzShowIcon]="true">
             <span alert-body>
-                已选择 <strong class="text-primary">{{selectedRows.length}}</strong> 项&nbsp;&nbsp;
-                服务调用总计 <strong>{{totalCallNo}}</strong> 万
-                <a *ngIf="totalCallNo > 0" (click)="clear()" class="ml-lg">清空</a>
+                查询到 <strong class="text-primary">{{audit_users.length}}</strong> 条待审核信息
             </span>
         </nz-alert>
     </div>
-    <nz-table #nzTable [nzDataSource]="data" [nzPageSize]="q.ps" [nzLoading]="loading"
+    <nz-table #nzTable [nzDataSource]="audit_users" [nzPageSize]="q.ps" [nzLoading]="loading"
                 (nzDataChange)="dataChange($event)"
                 (nzPageIndexChange)="pageChange($event)">
         <thead nz-thead>
             <tr>
-                <th nz-th [nzCheckbox]="true">
-                    <label nz-checkbox [(ngModel)]="allChecked" [nzIndeterminate]="indeterminate"
-                        (ngModelChange)="checkAll($event)"></label>
-                </th>
-                <th nz-th><span>规则编号</span></th>
-                <th nz-th><span>描述</span></th>
+                <th nz-th><span>用户名</span></th>
+                <th nz-th><span>昵称</span></th>
+                <th nz-th><span>电话</span></th>
+                <th nz-th><span>地址</span></th>
                 <th nz-th>
-                    <span>服务调用次数</span>
-                    <nz-table-sort [(nzValue)]="sortMap.callNo" (nzValueChange)="sort('callNo',$event)"></nz-table-sort>
-                </th>
-                <th nz-th>
-                    <span>状态</span>
-                    <nz-dropdown [nzTrigger]="'click'">
-                        <i class="anticon anticon-filter" nz-dropdown></i>
-                        <ul nz-menu>
-                            <li nz-menu-item *ngFor="let i of status">
-                                <label nz-checkbox [(ngModel)]="i.value"><span>{{i.text}}</span></label>
-                            </li>
-                        </ul>
-                        <div nz-table-filter>
-                            <span nz-table-filter-confirm (click)="getData()">确定</span>
-                            <span nz-table-filter-clear (click)="reset(status)">重置</span>
-                        </div>
-                    </nz-dropdown>
-                </th>
-                <th nz-th>
-                    <span>更新时间</span>
+                    <span>提审时间</span>
                     <nz-table-sort [(nzValue)]="sortMap.updatedAt" (nzValueChange)="sort('updatedAt',$event)"></nz-table-sort>
                 </th>
                 <th nz-th><span>操作</span></th>
@@ -131,31 +91,61 @@
         </thead>
         <tbody nz-tbody>
             <tr nz-tbody-tr *ngFor="let i of nzTable.data">
-                <td nz-td [nzCheckbox]="true">
-                    <label nz-checkbox [nzDisabled]="i.disabled" [(ngModel)]="i.checked" (ngModelChange)="refreshStatus($event)">
-                    </label>
-                </td>
-                <td nz-td>{{i.no}}</td>
-                <td nz-td>{{i.description}}</td>
-                <td nz-td class="text-center">{{i.callNo}} 万</td>
-                <td nz-td><nz-badge [nzStatus]="i.statusType" [nzText]="i.statusText"></nz-badge></td>
+                <td nz-td>{{i.userName}}</td>
+                <td nz-td>{{i.nickName}}</td>
+                <td nz-td>{{i.phone}} </td>
+                <td nz-td>{{i.province}}/{{i.city}}/{{i.area}}</td>
                 <td nz-td>{{i.updatedAt | _date}}</td>
                 <td nz-td>
-                    <a (click)="msg.success('配置' + i.no)">配置</a>
-                    <span nz-table-divider></span>
-                    <a (click)="msg.success('订阅警报' + i.no)">订阅警报</a>
+                    <a (click)="verify(i)">审核</a>
                 </td>
             </tr>
         </tbody>
     </nz-table>
 </nz-card>
-<nz-modal [nzVisible]="modalVisible" [nzTitle]="'新建规则'" [nzConfirmLoading]="loading" [nzContent]="modalContent"
-    (nzOnCancel)="modalVisible=false" (nzOnOk)="save()">
+<nz-modal *ngIf="currentAuditUser" [nzVisible]="modalVisible" [nzStyle]="{'margin-top':'3%'}" [nzCancelText]="'取消'" [nzOkText]="'接受审核'" [nzTitle]="'审核用户('+currentAuditUser.nickName+')'" [nzConfirmLoading]="loading" [nzContent]="modalContent"
+    (nzOnCancel)="modalVisible=false" (nzOnOk)="accept()">
     <ng-template #modalContent>
         <div nz-form-item class="d-flex">
-            <div nz-form-label><label for="no">描述</label></div>
+            <div nz-form-label><label for="no">用户名</label></div>
             <div nz-form-control class="flex-1">
-                <nz-input [(ngModel)]="description" name="description" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="no"></nz-input>
+                <nz-input [(ngModel)]="currentAuditUser.userName" name="userName" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="no"></nz-input>
+            </div>
+        </div>
+        <div nz-form-item class="d-flex">
+            <div nz-form-label><label for="no">昵称</label></div>
+            <div nz-form-control class="flex-1">
+                <nz-input [(ngModel)]="currentAuditUser.nickName" name="nickName" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="no"></nz-input>
+            </div>
+        </div>
+        <div nz-form-item class="d-flex">
+            <div nz-form-label><label for="no">电话</label></div>
+            <div nz-form-control class="flex-1">
+                <nz-input [(ngModel)]="currentAuditUser.phone" name="phone" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="no"></nz-input>
+            </div>
+        </div>
+        <div nz-form-item class="d-flex">
+            <div nz-form-label><label for="no">省</label></div>
+            <div nz-form-control class="flex-1">
+                <nz-input [(ngModel)]="currentAuditUser.province" name="province" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="no"></nz-input>
+            </div>
+        </div>
+        <div nz-form-item class="d-flex">
+            <div nz-form-label><label for="no">市</label></div>
+            <div nz-form-control class="flex-1">
+                <nz-input [(ngModel)]="currentAuditUser.city" name="city" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="no"></nz-input>
+            </div>
+        </div>
+        <div nz-form-item class="d-flex">
+            <div nz-form-label><label for="no">区</label></div>
+            <div nz-form-control class="flex-1">
+                <nz-input [(ngModel)]="currentAuditUser.area" name="area" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="no"></nz-input>
+            </div>
+        </div>
+        <div nz-form-item class="d-flex">
+            <div nz-form-label><label for="no">创建时间</label></div>
+            <div nz-form-control class="flex-1">
+                {{currentAuditUser.updatedAt | _date}}
             </div>
         </div>
     </ng-template>

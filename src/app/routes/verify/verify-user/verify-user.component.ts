@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { NzMessageService } from 'ng-zorro-antd';
+import { NzMessageService,NzModalService } from 'ng-zorro-antd';
+import { DCDataService } from '../../../services/data.service';
+import { DCAuthService } from '../../../services/auth.service';
+import * as _ from "lodash";
+
 
 @Component({
     selector: 'app-verify-user',
@@ -8,7 +12,7 @@ import { NzMessageService } from 'ng-zorro-antd';
 export class VerifyUserComponent implements OnInit {
     q: any = {
         pi: 1,
-        ps: 10,
+        ps: 5,
         sorter: '',
         status: -1,
         statusList: []
@@ -29,41 +33,49 @@ export class VerifyUserComponent implements OnInit {
     sortMap: any = {};
     expandForm = false;
     modalVisible = false;
-    description = '';
 
-    constructor(public msg: NzMessageService) {}
+    audit_users = [];
+    currentAuditUser;
 
-    ngOnInit() {
-        this.getData();
+    constructor(public msg: NzMessageService,private modal:NzModalService,private dataservice:DCDataService,private auth:DCAuthService) {
+        
     }
 
-    getData() {
-        this.pageChange(1).then(() => {
-            this.q.statusList = this.status.map((i, index) => i.value ? index : -1).filter(w => w !== -1);
-            if (this.q.status && this.q.status > -1) this.q.statusList.push(this.q.status);
-            console.log(this.q);
-           
+    ngOnInit() {
+        this.getAllAuditUsers();
+    }
+
+    getAllAuditUsers(){
+        this.dataservice.getAllAuditUsers().then((ar:any)=>{
+            this.audit_users = ar.json();
+            console.info(this.audit_users);
         });
     }
 
-    add() {
+    verify(au) {
+        this.currentAuditUser = (<any>Object).assign(au,{});
         this.modalVisible = true;
-        this.description = '';
     }
 
-    save() {
+    accept() {
         this.loading = true;
-        this.getData();
-        setTimeout(() => this.modalVisible = false, 500);
-    }
-
-    remove() {
-        this.getData();
-        this.clear();
-    }
-
-    approval() {
-        this.msg.success(`审批了 ${this.selectedRows.length} 笔`);
+        let option = {
+            title:"提示",
+            content:"确认接受此审核吗？",
+            onOk:()=>{
+                this.auth.register(this.currentAuditUser).then(()=>{
+                this.modalVisible = false;
+                this.loading = false;
+                this.getAllAuditUsers();
+                }).catch(err=>{
+                    this.msg.error("审核失败");
+                });
+            },
+            onCancel:()=>{
+                this.loading = false;
+            }
+        }
+        this.modal.confirm(option);
     }
 
     clear() {
@@ -90,10 +102,7 @@ export class VerifyUserComponent implements OnInit {
     }
 
     sort(field: string, value: any) {
-        this.sortMap = {};
-        this.sortMap[field] = value;
-        this.q.sorter = value ? `${field}_${value}` : '';
-        this.getData();
+        this.audit_users = _.orderBy(this.audit_users, [field], [value=='ascend'?'asc':'desc']);
     }
 
     dataChange(res: any) {
@@ -114,6 +123,5 @@ export class VerifyUserComponent implements OnInit {
 
     reset(ls: any[]) {
         for (const item of ls) item.value = false;
-        this.getData();
     }
 }

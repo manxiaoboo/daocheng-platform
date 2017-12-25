@@ -9,6 +9,20 @@ export class DCDataService {
 
     constructor(private http: Http,private router:Router) { }
 
+    /**
+     * 正式注册用户
+     * @param audit_user 
+     */
+    register(audit_user){
+        let url = environment.host + 'users/register';
+        return this._httpPost(url,audit_user);
+    }
+
+    getAllAuditUsers(){
+        let url = environment.host + 'users/all-audit-user';
+        return this._httpGet(url);
+    }
+
     me() {
         let url = environment.host + 'users/me';
         return this._httpGet(url);

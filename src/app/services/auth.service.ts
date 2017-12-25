@@ -16,6 +16,10 @@ export class DCAuthService {
         });
     }
 
+    register(audit_user){
+        return this.dataservice.register(audit_user);
+    }
+
     login(userName,password){
         return this.dataservice.login(userName,password);
     }
