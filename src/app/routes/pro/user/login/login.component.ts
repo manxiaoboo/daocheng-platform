@@ -55,7 +55,13 @@ export class ProUserLoginComponent implements OnDestroy {
                 return;
             }else{
                 localStorage.setItem("authToken",ur.json().token);
-                this.router.navigate(['/']);
+                this.auth.getMe().then(()=>{
+                    this.router.navigate(['/']);
+                }).catch(err=>{
+                    this.error = `账户或密码错误`;
+                    return;
+                });
+                
             }
            
         });

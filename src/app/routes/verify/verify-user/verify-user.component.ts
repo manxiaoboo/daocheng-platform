@@ -3,6 +3,7 @@ import { NzMessageService,NzModalService } from 'ng-zorro-antd';
 import { DCDataService } from '../../../services/data.service';
 import { DCAuthService } from '../../../services/auth.service';
 import * as _ from "lodash";
+import { isSameDay } from 'date-fns';
 
 
 @Component({
@@ -15,7 +16,9 @@ export class VerifyUserComponent implements OnInit {
         ps: 5,
         sorter: '',
         userName:'',
-        updatedAt:''
+        updatedAt:'',
+        address:'',
+        phone:''
     };
     data: any[] = [];
     loading = false;
@@ -36,6 +39,7 @@ export class VerifyUserComponent implements OnInit {
 
     audit_users = [];
     currentAuditUser;
+    old_audit_users = [];
 
     constructor(public msg: NzMessageService,private modal:NzModalService,private dataservice:DCDataService,private auth:DCAuthService) {
         
@@ -46,14 +50,51 @@ export class VerifyUserComponent implements OnInit {
     }
 
     getAllAuditUsers(){
+        this.q = {
+            pi: 1,
+            ps: 10,
+            sorter: '',
+            userName:'',
+            updatedAt:'',
+            address:'',
+            phone:''
+        };
         this.dataservice.getAllAuditUsers().then((ar:any)=>{
             this.audit_users = ar.json();
+            this.old_audit_users = ar.json();
             console.info(this.audit_users);
         });
     }
 
+    restoreAuditUsers(){
+        this.audit_users = this.old_audit_users;
+    }
+
     filterSearch(){
         console.info(this.q);
+        if(this.q.userName){
+            this.audit_users = this.old_audit_users.filter((au)=>{
+                return au.userName.indexOf(this.q.userName) != -1;
+            });
+        }
+        if(this.q.address){
+            this.audit_users = this.old_audit_users.filter((au)=>{
+                return (au.province+au.city+au.area).indexOf(this.q.address) != -1;
+            });
+        }
+        if(this.q.phone){
+            this.audit_users = this.old_audit_users.filter((au)=>{
+                return au.phone.indexOf(this.q.phone) != -1;
+            });
+        }
+        if(this.q.updatedAt){
+            this.audit_users = this.old_audit_users.filter((au)=>{
+                return isSameDay(new Date(au.updatedAt),new Date(this.q.updatedAt));
+            });
+        }
+        if(!this.q.userName && !this.q.address && !this.q.phone && !this.q.updatedAt){
+            this.restoreAuditUsers();
+        }
     }
 
     verify(au) {

@@ -15,22 +15,22 @@ export class DCDataService {
      */
     register(audit_user){
         let url = environment.host + 'users/register';
-        return this._httpPost(url,audit_user);
+        return this._httpPost(url,audit_user).catch(err=>this.handleErr(err));
     }
 
     getAllAuditUsers(){
         let url = environment.host + 'users/all-audit-user';
-        return this._httpGet(url);
+        return this._httpGet(url).catch(err=>this.handleErr(err));
     }
 
     me() {
-        let url = environment.host + 'users/me';
+        let url = environment.host + 'users/me?roleId=2cf27ea0-e6c4-11e7-b42e-060400ef5315';
         return this._httpGet(url);
     }
 
     login(userName,password){
         let url = environment.host + 'auth/local';
-        return this._httpPost(url,{userName:userName,password:password});
+        return this._httpPost(url,{userName:userName,password:password}).catch(err=>this.handleErr(err));
     }
 
     private _getHeader(){

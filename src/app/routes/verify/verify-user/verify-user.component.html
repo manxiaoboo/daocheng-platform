@@ -20,43 +20,23 @@
             </div>
             <div *ngIf="expandForm" nz-col [nzSpan]="8" class="mb-md">
                 <div nz-form-item class="d-flex">
-                    <div nz-form-label><label for="callNo">调用次数</label></div>
+                    <div nz-form-label><label for="callNo">地址</label></div>
                     <div nz-form-control class="flex-1">
-                        <nz-input [nzSize]="'large'" nzId="callNo"></nz-input>
+                        <nz-input [(ngModel)]="q.address" name="address" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="userName"></nz-input>
                     </div>
                 </div>
             </div>
             <div *ngIf="expandForm" nz-col [nzSpan]="8" class="mb-md">
                 <div nz-form-item class="d-flex">
-                    <div nz-form-label><label for="updatedAt">更新日期</label></div>
+                    <div nz-form-label><label for="updatedAt">电话</label></div>
                     <div nz-form-control class="flex-1">
-                        <nz-datepicker [nzSize]="'large'" [nzPlaceHolder]="'请输入更新日期'" nzId="updatedAt" class="d-block"></nz-datepicker>
-                    </div>
-                </div>
-            </div>
-            <div *ngIf="expandForm" nz-col [nzSpan]="8" class="mb-md">
-                <div nz-form-item class="d-flex">
-                    <div nz-form-label><label for="status2">使用状态</label></div>
-                    <div nz-form-control class="flex-1">
-                        <nz-select [nzPlaceHolder]="'请选择'" nzId="status2" [nzShowSearch]="true" [nzSize]="'large'">
-                            <nz-option *ngFor="let i of status; let idx = index" [nzLabel]="i.text" [nzValue]="idx"></nz-option>
-                        </nz-select>
-                    </div>
-                </div>
-            </div>
-            <div *ngIf="expandForm" nz-col [nzSpan]="8" class="mb-md">
-                <div nz-form-item class="d-flex">
-                    <div nz-form-label><label for="status3">使用状态</label></div>
-                    <div nz-form-control class="flex-1">
-                        <nz-select [nzPlaceHolder]="'请选择'" nzId="status3" [nzShowSearch]="true" [nzSize]="'large'">
-                            <nz-option *ngFor="let i of status; let idx = index" [nzLabel]="i.text" [nzValue]="idx"></nz-option>
-                        </nz-select>
+                        <nz-input [(ngModel)]="q.phone" name="phone" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="userName"></nz-input>
                     </div>
                 </div>
             </div>
             <div nz-col [nzSpan]="expandForm ? 24 : 8" class="mb-md" [class.text-right]="expandForm">
                 <button nz-button type="submit" [nzType]="'primary'" [nzLoading]="loading" [nzSize]="'large'">查询</button>
-                <button nz-button type="reset" (click)="getAllAuditUsers()" [nzSize]="'large'" class="mx-sm">重置</button>
+                <button nz-button type="reset" (click)="restoreAuditUsers()" [nzSize]="'large'" class="mx-sm">重置</button>
                 <a (click)="expandForm=!expandForm">
                     {{expandForm ? '收起' : '展开'}}
                     <i class="anticon" [class.anticon-down]="!expandForm" [class.anticon-up]="expandForm"></i>
@@ -81,7 +61,7 @@
                 <th nz-th><span>电话</span></th>
                 <th nz-th><span>地址</span></th>
                 <th nz-th>
-                    <span>提审时间</span>
+                    <span>提审日期</span>
                     <nz-table-sort [(nzValue)]="sortMap.updatedAt" (nzValueChange)="sort('updatedAt',$event)"></nz-table-sort>
                 </th>
                 <th nz-th><span>操作</span></th>
