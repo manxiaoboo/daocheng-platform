@@ -14,8 +14,8 @@ export class VerifyUserComponent implements OnInit {
         pi: 1,
         ps: 5,
         sorter: '',
-        status: -1,
-        statusList: []
+        userName:'',
+        updatedAt:''
     };
     data: any[] = [];
     loading = false;
@@ -52,6 +52,10 @@ export class VerifyUserComponent implements OnInit {
         });
     }
 
+    filterSearch(){
+        console.info(this.q);
+    }
+
     verify(au) {
         this.currentAuditUser = (<any>Object).assign(au,{});
         this.modalVisible = true;
@@ -78,37 +82,11 @@ export class VerifyUserComponent implements OnInit {
         this.modal.confirm(option);
     }
 
-    clear() {
-        this.selectedRows = [];
-        this.totalCallNo = 0;
-        this.data.forEach(i => i.checked = false);
-        this.refreshStatus();
-    }
-
-    checkAll(value: boolean) {
-        this.curRows.forEach(i => {
-            if (!i.disabled) i.checked = value;
-        });
-        this.refreshStatus();
-    }
-
-    refreshStatus() {
-        const allChecked = this.curRows.every(value => value.disabled || value.checked);
-        const allUnChecked = this.curRows.every(value => value.disabled || !value.checked);
-        this.allChecked = allChecked;
-        this.indeterminate = (!allChecked) && (!allUnChecked);
-        this.selectedRows = this.data.filter(value => value.checked);
-        this.totalCallNo = this.selectedRows.reduce((total, cv) => total + cv.callNo, 0);
-    }
 
     sort(field: string, value: any) {
         this.audit_users = _.orderBy(this.audit_users, [field], [value=='ascend'?'asc':'desc']);
     }
 
-    dataChange(res: any) {
-        this.curRows = res;
-        this.refreshStatus();
-    }
 
     pageChange(pi: number): Promise<any> {
         this.q.pi = pi;
@@ -119,6 +97,10 @@ export class VerifyUserComponent implements OnInit {
                 resolve();
             }, 500);
         });
+    }
+
+    dataChange(e){
+
     }
 
     reset(ls: any[]) {
