@@ -9,7 +9,8 @@ export class AuthResolveService implements Resolve<any> {
     resolve(route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot): Promise<any> | boolean {
         return Promise.all([
-            this.getMe()
+            this.getMe(),
+            this.getRoles()
         ]).then(()=>{
             return true;
         });
@@ -17,5 +18,9 @@ export class AuthResolveService implements Resolve<any> {
 
     getMe(){
         return this.auth.getMe();
+    }
+
+    getRoles(){
+        return this.auth.getRoles();
     }
 } 

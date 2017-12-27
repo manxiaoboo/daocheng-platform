@@ -1,7 +1,7 @@
 {
     "app": {
-        "name": "Alain",
-        "description": "Ng-zorro admin panel front-end framework"
+        "name": "稻成",
+        "description": "水稻一体化服务平台"
     },
     "user": {
         "name": "管理员",
@@ -27,6 +27,16 @@
                     "text": "用户审核",
                     "link": "/verify-user",
                     "translate": "用户审核"
+                }]
+            },
+            {
+                "text": "用户管理",
+                "translate": "用户管理",
+                "icon": "icon-user",
+                "children": [{
+                    "text": "农户管理",
+                    "link": "/user-manager-farmer",
+                    "translate": "农户管理"
                 }]
             }
             ]

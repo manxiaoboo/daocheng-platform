@@ -1,10 +1,25 @@
 <pro-header [title]="'用户审核'"></pro-header>
 <nz-card [nzBordered]="false">
-    <form nz-form (ngSubmit)="filterSearch()" [nzLayout]="'inline'">
-        <div nz-row [nzGutter]="24">
+
+    <div nz-row [nzGutter]="24">
+        <form nz-form (ngSubmit)="filterSearch()" [nzLayout]="'inline'">
             <div nz-col [nzSpan]="8" class="mb-md">
                 <div nz-form-item class="d-flex">
-                    <div nz-form-label><label for="no">用户名</label></div>
+                    <div nz-form-label>
+                        <label for="role">身份</label>
+                    </div>
+                    <div nz-form-control class="flex-1">
+                        <nz-select [(ngModel)]="q.role" name="role" nzId="role" [nzPlaceHolder]="'请选择'" [nzShowSearch]="true" [nzSize]="'large'">
+                            <nz-option *ngFor="let i of roles; let idx = index" [nzLabel]="i.cName" [nzValue]="i.id"></nz-option>
+                        </nz-select>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="expandForm" nz-col [nzSpan]="8" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label>
+                        <label for="no">用户名</label>
+                    </div>
                     <div nz-form-control class="flex-1">
                         <nz-input [(ngModel)]="q.userName" name="userName" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="userName"></nz-input>
                     </div>
@@ -12,15 +27,20 @@
             </div>
             <div *ngIf="expandForm" nz-col [nzSpan]="8" class="mb-md">
                 <div nz-form-item class="d-flex">
-                    <div nz-form-label><label for="updatedAt">提审日期</label></div>
+                    <div nz-form-label>
+                        <label for="updatedAt">提审日期</label>
+                    </div>
                     <div nz-form-control class="flex-1">
-                        <nz-datepicker [nzSize]="'large'" [(ngModel)]="q.updatedAt" name="updatedAt" [nzPlaceHolder]="'请输入提审日期'" nzId="updatedAt" class="d-block"></nz-datepicker>
+                        <nz-datepicker [nzSize]="'large'" [(ngModel)]="q.updatedAt" name="updatedAt" [nzPlaceHolder]="'请输入提审日期'" nzId="updatedAt"
+                            class="d-block"></nz-datepicker>
                     </div>
                 </div>
             </div>
             <div *ngIf="expandForm" nz-col [nzSpan]="8" class="mb-md">
                 <div nz-form-item class="d-flex">
-                    <div nz-form-label><label for="callNo">地址</label></div>
+                    <div nz-form-label>
+                        <label for="callNo">地址</label>
+                    </div>
                     <div nz-form-control class="flex-1">
                         <nz-input [(ngModel)]="q.address" name="address" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="userName"></nz-input>
                     </div>
@@ -28,13 +48,15 @@
             </div>
             <div *ngIf="expandForm" nz-col [nzSpan]="8" class="mb-md">
                 <div nz-form-item class="d-flex">
-                    <div nz-form-label><label for="updatedAt">电话</label></div>
+                    <div nz-form-label>
+                        <label for="updatedAt">电话</label>
+                    </div>
                     <div nz-form-control class="flex-1">
                         <nz-input [(ngModel)]="q.phone" name="phone" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="userName"></nz-input>
                     </div>
                 </div>
             </div>
-            <div nz-col [nzSpan]="expandForm ? 24 : 8" class="mb-md" [class.text-right]="expandForm">
+            <div nz-col [nzSpan]="8" class="mb-md" [class.text-right]="expandForm">
                 <button nz-button type="submit" [nzType]="'primary'" [nzLoading]="loading" [nzSize]="'large'">查询</button>
                 <button nz-button type="reset" (click)="restoreAuditUsers()" [nzSize]="'large'" class="mx-sm">重置</button>
                 <a (click)="expandForm=!expandForm">
@@ -42,35 +64,65 @@
                     <i class="anticon" [class.anticon-down]="!expandForm" [class.anticon-up]="expandForm"></i>
                 </a>
             </div>
+        </form>
+        <div nz-col [nzSpan]="expandForm?24 : 8" class="mb-md" [class.text-right]="expandForm">
+            <nz-radio-group [(ngModel)]="q.status" [nzSize]="'large'" class="mr-md" name="qStatus">
+                <label nz-radio-button [nzValue]="'waiting'">
+                    <span>待审核</span>
+                </label>
+                <label nz-radio-button [nzValue]="'done'">
+                    <span>已审核</span>
+                </label>
+            </nz-radio-group>
+            <button nz-button type="button" [nzType]="'default'" [nzLoading]="loading" [nzSize]="'large'" (click)="refreshDatas()">刷新数据</button>            
         </div>
-    </form>
+    </div>
+
     <div class="mb-md">
         <nz-alert [nzType]="'info'" [nzShowIcon]="true">
-            <span alert-body>
-                查询到 <strong class="text-primary">{{audit_users.length}}</strong> 条待审核信息
+            <span alert-body *ngIf="q.status == 'waiting'">
+                查询到
+                <strong class="text-primary">{{audit_users.length}}</strong> 条待审核信息
+            </span>
+            <span alert-body *ngIf="q.status == 'done'">
+                查询到
+                <strong class="text-primary">{{audit_users_done.length}}</strong> 条已审核信息
             </span>
         </nz-alert>
     </div>
-    <nz-table #nzTable [nzDataSource]="audit_users" [nzPageSize]="q.ps" [nzLoading]="loading"
-                (nzDataChange)="dataChange($event)"
-                (nzPageIndexChange)="pageChange($event)">
+    <nz-table #nzTable [nzDataSource]="audit_users" [nzPageSize]="q.ps" [nzLoading]="loading" *ngIf="q.status == 'waiting'" (nzDataChange)="dataChange($event)"
+        (nzPageIndexChange)="pageChange($event)">
         <thead nz-thead>
             <tr>
-                <th nz-th><span>用户名</span></th>
-                <th nz-th><span>昵称</span></th>
-                <th nz-th><span>电话</span></th>
-                <th nz-th><span>地址</span></th>
+                <th nz-th>
+                    <span>用户名</span>
+                </th>
+                <th nz-th>
+                    <span>昵称</span>
+                </th>
+                <th nz-th>
+                    <span>身份</span>
+                </th>
+                <th nz-th>
+                    <span>电话</span>
+                </th>
+                <th nz-th>
+                    <span>地址</span>
+                </th>
                 <th nz-th>
                     <span>提审日期</span>
                     <nz-table-sort [(nzValue)]="sortMap.updatedAt" (nzValueChange)="sort('updatedAt',$event)"></nz-table-sort>
                 </th>
-                <th nz-th><span>操作</span></th>
+                <th nz-th>
+                    <span>操作</span>
+                </th>
             </tr>
         </thead>
         <tbody nz-tbody>
             <tr nz-tbody-tr *ngFor="let i of nzTable.data">
                 <td nz-td>{{i.userName}}</td>
                 <td nz-td>{{i.nickName}}</td>
+                <td nz-td *ngIf="i.roleName">{{i.roleName}}</td>
                 <td nz-td>{{i.phone}} </td>
                 <td nz-td>{{i.province}}/{{i.city}}/{{i.area}}</td>
                 <td nz-td>{{i.updatedAt | _date}}</td>
@@ -80,48 +132,198 @@
             </tr>
         </tbody>
     </nz-table>
+    <nz-table #nzTable [nzDataSource]="audit_users_done" [nzPageSize]="q.ps" [nzLoading]="loading" *ngIf="q.status == 'done'"
+        (nzDataChange)="dataChange($event)" (nzPageIndexChange)="pageChange($event)">
+        <thead nz-thead>
+            <tr>
+                <th nz-th>
+                    <span>用户名</span>
+                </th>
+                <th nz-th>
+                    <span>昵称</span>
+                </th>
+                <th nz-th>
+                    <span>身份</span>
+                </th>
+                <th nz-th>
+                    <span>电话</span>
+                </th>
+                <th nz-th>
+                    <span>地址</span>
+                </th>
+                <th nz-th>
+                    <span>通过日期</span>
+                    <nz-table-sort [(nzValue)]="sortMap.updatedAt" (nzValueChange)="sort('updatedAt',$event)"></nz-table-sort>
+                </th>
+                <th nz-th>
+                    <span>操作</span>
+                </th>
+            </tr>
+        </thead>
+        <tbody nz-tbody>
+            <tr nz-tbody-tr *ngFor="let i of nzTable.data">
+                <td nz-td>{{i.userName}}</td>
+                <td nz-td>{{i.nickName}}</td>
+                <td nz-td *ngIf="i.roleName">{{i.roleName}}</td>
+                <td nz-td>{{i.phone}} </td>
+                <td nz-td>{{i.province}}/{{i.city}}/{{i.area}}</td>
+                <td nz-td>{{i.updatedAt | _date}}</td>
+                <td nz-td>
+                    <a (click)="view(i)">查看</a>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
 </nz-card>
-<nz-modal *ngIf="currentAuditUser" [nzVisible]="modalVisible" [nzStyle]="{'margin-top':'3%'}" [nzCancelText]="'取消'" [nzOkText]="'接受审核'" [nzTitle]="'审核用户('+currentAuditUser.nickName+')'" [nzConfirmLoading]="loading" [nzContent]="modalContent"
-    (nzOnCancel)="modalVisible=false" (nzOnOk)="accept()">
+
+<nz-modal *ngIf="currentAuditUserDone" [nzVisible]="modalVisible2" [nzStyle]="{'margin-top':'3%'}" [nzCancelText]="'取消'"
+    [nzOkText]="'确定'" [nzTitle]="'已审核用户('+currentAuditUserDone.nickName+')'" [nzConfirmLoading]="loading" [nzContent]="modalContent"
+    (nzOnCancel)="modalVisible2=false" (nzOnOk)="viewOk()">
     <ng-template #modalContent>
         <div nz-form-item class="d-flex">
-            <div nz-form-label><label for="no">用户名</label></div>
+            <div nz-form-label>
+                <label for="no">用户名</label>
+            </div>
+            <div nz-form-control class="flex-1">
+                <nz-input [(ngModel)]="currentAuditUserDone.userName" name="userName" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="userName"
+                    disabled="disabled"></nz-input>
+            </div>
+        </div>
+        <div nz-form-item class="d-flex">
+            <div nz-form-label>
+                <label for="no">昵称</label>
+            </div>
+            <div nz-form-control class="flex-1">
+                <nz-input [(ngModel)]="currentAuditUserDone.nickName" name="nickName" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="nickName"
+                    disabled="disabled"></nz-input>
+            </div>
+        </div>
+        <div nz-form-item class="d-flex">
+            <div nz-form-label>
+                <label for="no">身份</label>
+            </div>
+            <div nz-form-control class="flex-1">
+                <nz-input [(ngModel)]="currentAuditUserDone.roleName" name="roleName" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="roleName"
+                    disabled="disabled"></nz-input>
+            </div>
+        </div>
+        <div nz-form-item class="d-flex">
+            <div nz-form-label>
+                <label for="no">电话</label>
+            </div>
+            <div nz-form-control class="flex-1">
+                <nz-input [(ngModel)]="currentAuditUserDone.phone" name="phone" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="phone" disabled="disabled"></nz-input>
+            </div>
+        </div>
+        <div nz-form-item class="d-flex">
+            <div nz-form-label>
+                <label for="no">省</label>
+            </div>
+            <div nz-form-control class="flex-1">
+                <nz-input [(ngModel)]="currentAuditUserDone.province" name="province" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="province"
+                    disabled="disabled"></nz-input>
+            </div>
+        </div>
+        <div nz-form-item class="d-flex">
+            <div nz-form-label>
+                <label for="no">市</label>
+            </div>
+            <div nz-form-control class="flex-1">
+                <nz-input [(ngModel)]="currentAuditUserDone.city" name="city" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="city" disabled="disabled"></nz-input>
+            </div>
+        </div>
+        <div nz-form-item class="d-flex">
+            <div nz-form-label>
+                <label for="no">区</label>
+            </div>
+            <div nz-form-control class="flex-1">
+                <nz-input [(ngModel)]="currentAuditUserDone.area" name="area" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="area" disabled="disabled"></nz-input>
+            </div>
+        </div>
+        <div nz-form-item class="d-flex">
+            <div nz-form-label>
+                <label for="no">通过审核日期</label>
+            </div>
+            <div nz-form-control class="flex-1">
+                {{currentAuditUserDone.updatedAt | _date}}
+            </div>
+        </div>
+        <div nz-form-item class="d-flex" *ngIf="currentAuditUserDone.auditUser">
+            <div nz-form-label>
+                <label for="no">审核人</label>
+            </div>
+            <div nz-form-control class="flex-1">
+                {{currentAuditUserDone.auditUser.nickName}}({{currentAuditUserDone.auditUser.userName}})
+            </div>
+        </div>
+    </ng-template>
+</nz-modal>
+
+<nz-modal *ngIf="currentAuditUser" [nzVisible]="modalVisible" [nzStyle]="{'margin-top':'3%'}" [nzCancelText]="'取消'" [nzOkText]="'接受审核'"
+    [nzTitle]="'审核用户('+currentAuditUser.nickName+')'" [nzConfirmLoading]="loading" [nzContent]="modalContent" (nzOnCancel)="modalVisible=false"
+    (nzOnOk)="accept()">
+    <ng-template #modalContent>
+        <div nz-form-item class="d-flex">
+            <div nz-form-label>
+                <label for="no">用户名</label>
+            </div>
             <div nz-form-control class="flex-1">
                 <nz-input [(ngModel)]="currentAuditUser.userName" name="userName" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="no"></nz-input>
             </div>
         </div>
         <div nz-form-item class="d-flex">
-            <div nz-form-label><label for="no">昵称</label></div>
+            <div nz-form-label>
+                <label for="no">昵称</label>
+            </div>
             <div nz-form-control class="flex-1">
                 <nz-input [(ngModel)]="currentAuditUser.nickName" name="nickName" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="no"></nz-input>
             </div>
         </div>
         <div nz-form-item class="d-flex">
-            <div nz-form-label><label for="no">电话</label></div>
+            <div nz-form-label>
+                <label for="no">身份</label>
+            </div>
+            <div nz-form-control class="flex-1">
+                <nz-input [(ngModel)]="currentAuditUser.roleName" name="roleName" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="roleName"
+                    disabled="disabled"></nz-input>
+            </div>
+        </div>
+        <div nz-form-item class="d-flex">
+            <div nz-form-label>
+                <label for="no">电话</label>
+            </div>
             <div nz-form-control class="flex-1">
                 <nz-input [(ngModel)]="currentAuditUser.phone" name="phone" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="no"></nz-input>
             </div>
         </div>
         <div nz-form-item class="d-flex">
-            <div nz-form-label><label for="no">省</label></div>
+            <div nz-form-label>
+                <label for="no">省</label>
+            </div>
             <div nz-form-control class="flex-1">
                 <nz-input [(ngModel)]="currentAuditUser.province" name="province" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="no"></nz-input>
             </div>
         </div>
         <div nz-form-item class="d-flex">
-            <div nz-form-label><label for="no">市</label></div>
+            <div nz-form-label>
+                <label for="no">市</label>
+            </div>
             <div nz-form-control class="flex-1">
                 <nz-input [(ngModel)]="currentAuditUser.city" name="city" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="no"></nz-input>
             </div>
         </div>
         <div nz-form-item class="d-flex">
-            <div nz-form-label><label for="no">区</label></div>
+            <div nz-form-label>
+                <label for="no">区</label>
+            </div>
             <div nz-form-control class="flex-1">
                 <nz-input [(ngModel)]="currentAuditUser.area" name="area" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="no"></nz-input>
             </div>
         </div>
         <div nz-form-item class="d-flex">
-            <div nz-form-label><label for="no">创建时间</label></div>
+            <div nz-form-label>
+                <label for="no">提审日期</label>
+            </div>
             <div nz-form-control class="flex-1">
                 {{currentAuditUser.updatedAt | _date}}
             </div>

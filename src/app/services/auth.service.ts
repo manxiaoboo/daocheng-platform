@@ -7,6 +7,7 @@ import { DCDataService } from '../services/data.service';
 @Injectable()
 export class DCAuthService {
     user;
+    roles;
 
     constructor( private dataservice:DCDataService,private router:Router) { }
 
@@ -16,8 +17,14 @@ export class DCAuthService {
         });
     }
 
-    register(audit_user){
-        return this.dataservice.register(audit_user);
+    getRoles(){
+        return this.dataservice.getRoles().then((roles:any)=>{
+            this.roles = roles.json();
+        });
+    }
+
+    register(audit_user,userId){
+        return this.dataservice.register(audit_user,userId);
     }
 
     login(userName,password){
