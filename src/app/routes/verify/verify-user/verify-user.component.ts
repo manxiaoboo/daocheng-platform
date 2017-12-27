@@ -169,6 +169,32 @@ export class VerifyUserComponent implements OnInit {
         this.modalVisible = true;
     }
 
+    reject(au){
+        let option = {
+            title: "危险",
+            content: "你确认要拒绝此审核申请吗？",
+            onOk: () => {
+                this.loading = true;
+                this.auth.auditReject(au).then(() => {
+                    this.loading = false;
+                    setTimeout(() => {
+                        this.modal.success({
+                            title: `操作成功`,
+                            content: `此用户(${au.userName})的申请已被拒绝。`
+                        });
+                        this.refreshDatas();
+                    }, 500);
+                }).catch(err => {
+                    this.msg.error("拒绝申请失败");
+                });
+            },
+            onCancel: () => {
+                this.loading = false;
+            }
+        }
+        this.modal.confirm(option);
+    }
+
     view(au) {
         this.currentAuditUserDone = (<any>Object).assign(au, {});
         this.loading = true;

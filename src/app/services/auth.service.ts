@@ -27,6 +27,10 @@ export class DCAuthService {
         return this.dataservice.register(audit_user,userId);
     }
 
+    auditReject(audit_user){
+        return this.dataservice.auditUserReject(audit_user);
+    }
+
     login(userName,password){
         return this.dataservice.login(userName,password);
     }

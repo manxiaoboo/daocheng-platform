@@ -128,6 +128,8 @@
                 <td nz-td>{{i.updatedAt | _date}}</td>
                 <td nz-td>
                     <a (click)="verify(i)">审核</a>
+                    <span class="ant-divider"></span>
+                    <a (click)="reject(i)">拒绝</a>
                 </td>
             </tr>
         </tbody>

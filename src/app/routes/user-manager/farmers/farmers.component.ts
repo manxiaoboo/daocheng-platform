@@ -12,6 +12,10 @@ import { isSameDay } from 'date-fns';
     styleUrls: ['./farmers.component.less']
 })
 export class UserFarmerManagerComponent implements OnInit, OnDestroy {
+    q: any = {
+        status: 'all'
+    };
+    loading = false;
     roles;
     farmerRole;
     farmers;
@@ -28,6 +32,13 @@ export class UserFarmerManagerComponent implements OnInit, OnDestroy {
     getFarmers(){
         this.dataservice.getUsersByRole(this.farmerRole.id).then((fs:any)=>{
             this.farmers = fs.json();
+            this.farmers.forEach(f => {
+                this.roles.forEach(r => {
+                    if (f.roleId == r.id) {
+                        f.roleName = r.cName;
+                    }
+                });
+            });
             console.info(this.farmers);
         });
     }

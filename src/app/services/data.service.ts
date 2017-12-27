@@ -53,6 +53,15 @@ export class DCDataService {
     }
 
     /**
+     * 拒绝审核申请
+     * @param audit_user 
+     */
+    auditUserReject(audit_user){
+        let url = environment.host + 'users/audit-user-reject';
+        return this._httpPost(url,audit_user);
+    }
+
+    /**
      * 根据id获取用户信息
      * @param userId 
      */
