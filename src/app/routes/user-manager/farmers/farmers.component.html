@@ -1,89 +1,154 @@
 <pro-header></pro-header>
-<nz-card [nzBordered]="false">
-    <div nz-row>
-        <div nz-col [nzXs]="24" [nzSm]="8" class="header-info">
-            <p class="text-grey-dark">我的待办</p>
-            <p class="display-2">8个任务</p>
-            <em></em>
-        </div>
-        <div nz-col [nzXs]="24" [nzSm]="8" class="header-info">
-            <p class="text-grey-dark">本周任务平均处理时间</p>
-            <p class="display-2">32分钟</p>
-            <em></em>
-        </div>
-        <div nz-col [nzXs]="24" [nzSm]="8" class="header-info">
-            <p class="text-grey-dark">本周完成任务数</p>
-            <p class="display-2">24个任务</p>
-        </div>
-    </div>
-</nz-card>
-<nz-card [nzBordered]="false">
+<nz-card [nzBordered]="true">
     <div class="d-flex align-items-center mb-lg">
         <h3 class="flex-1 text-lg">农户列表</h3>
         <div>
-            <nz-radio-group [(ngModel)]="q.status" [nzSize]="'large'" class="mr-md">
-                <label nz-radio-button [nzValue]="'all'">
-                    <span>全部</span>
+            <nz-radio-group [(ngModel)]="q.status" [nzSize]="'large'" class="mr-md" name="qStatus">
+                <label nz-radio-button [nzValue]="'validate'">
+                    <span>已开通</span>
                 </label>
-                <label nz-radio-button [nzValue]="'progress'">
-                    <span>进行中</span>
-                </label>
-                <label nz-radio-button [nzValue]="'waiting'">
-                    <span>等待中</span>
+                <label nz-radio-button [nzValue]="'novalidate'">
+                    <span>未开通</span>
                 </label>
             </nz-radio-group>
             <nz-input [nzType]="'search'" [nzPlaceHolder]="'请输入'" [(ngModel)]="q.q" [nzSize]="'large'" style="width: 272px"></nz-input>
         </div>
     </div>
-    <button nz-button (click)="msg.success('add')" [nzType]="'dashed'" [nzSize]="'large'" class="ant-btn__block mb-sm">
-        <i class="anticon anticon-plus"></i>
-        <span>添加</span>
+    <button nz-button (click)="getFarmers()" [nzType]="'dashed'" [nzSize]="'large'" class="ant-btn__block mb-sm">
+        <i class="anticon anticon-sync"></i>
+        <span>刷新数据</span>
     </button>
-    <nz-list [nzDataSource]="farmers" [nzLoading]="loading">
-        <ng-template #item let-item>
-            <nz-list-item [nzContent]="nzContent">
-                <nz-list-item-action>
-                    <a (click)="msg.success('编辑：' + item.title)">编辑</a>
-                </nz-list-item-action>
-                <nz-list-item-action>
-                    <nz-dropdown>
-                        <a class="ant-dropdown-link" nz-dropdown>
-                            编辑
-                            <i class="anticon anticon-down"></i>
-                        </a>
-                        <ul nz-menu>
-                            <li nz-menu-item (click)="msg.success('编辑：' + item.title)">编辑</li>
-                            <li nz-menu-item (click)="msg.success('删除：' + item.title)">删除</li>
-                        </ul>
-                    </nz-dropdown>
-                </nz-list-item-action>
-                <nz-list-item-meta [nzTitle]="nzTitle" [nzDescription]="'地址: '+item.province + ' / ' +item.city+' / '+item.area"
-                    [nzAvatar]="nzAvatar">
-                    <ng-template #nzTitle>
-                        <a href="" target="_blank">{{item.nickName}} ({{item.userName}})</a>
-                    </ng-template>
-                    <ng-template #nzAvatar>
-                        <nz-avatar [nzSrc]="item.picture" [nzSize]="'large'" [nzShape]="'square'"></nz-avatar>
-                    </ng-template>
-                </nz-list-item-meta>
-                <ng-template #nzContent>
-                    <div class="width-md">
-                        <div class="d-flex text-grey-dark">
-                            <div class="flex-1">
-                                身份
-                                <p>{{item.roleName}}</p>
-                            </div>
-                            <div class="text-right">
-                                电话
-                                <p>{{item.phone}}</p>
-                            </div>
-                        </div>
-                    </div>
-                </ng-template>
-            </nz-list-item>
-        </ng-template>
-        <ng-template #pagination>
-            <nz-pagination [nzTotal]="50" [nzPageSize]="5" [nzSize]="'large'" (nzPageIndexChange)="getFarmers()"></nz-pagination>
-        </ng-template>
-    </nz-list>
+    <nz-table #nzTable [nzDataSource]="farmers" [nzPageSize]="q.ps" [nzLoading]="loading" *ngIf="q.status == 'validate'" (nzDataChange)="dataChange($event)"
+        (nzPageIndexChange)="pageChange($event)">
+        <thead nz-thead>
+            <tr>
+                <th nz-th>
+                        <span>头像</span>
+                </th>
+                <th nz-th>
+                    <span>用户名</span>
+                </th>
+                <th nz-th>
+                    <span>昵称</span>
+                </th>
+                <th nz-th>
+                    <span>身份</span>
+                </th>
+                <th nz-th>
+                    <span>电话</span>
+                </th>
+                <th nz-th>
+                    <span>地址</span>
+                </th>
+                <th nz-th>
+                    <span>更新日期</span>
+                    <nz-table-sort [(nzValue)]="sortMap.updatedAt" (nzValueChange)="sort('updatedAt',$event)"></nz-table-sort>
+                </th>
+                <th nz-th>
+                    <span>操作</span>
+                </th>
+            </tr>
+        </thead>
+        <tbody nz-tbody>
+            <tr nz-tbody-tr *ngFor="let i of nzTable.data">
+                <td nz-td>
+                    <nz-avatar [nzSrc]="i.picture" [nzSize]="'large'" [nzShape]="'square'"></nz-avatar>
+                </td>
+                <td nz-td>{{i.userName}}</td>
+                <td nz-td>{{i.nickName}}</td>
+                <td nz-td *ngIf="i.roleName">{{i.roleName}}</td>
+                <td nz-td>{{i.phone}} </td>
+                <td nz-td>{{i.province}}/{{i.city}}/{{i.area}}</td>
+                <td nz-td>{{i.updatedAt | _date}}</td>
+                <td nz-td>
+                    <a (click)="view(i)">查看</a>
+                    <span class="ant-divider"></span>
+                    <a (click)="reject(i)">操作</a>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
 </nz-card>
+
+
+<nz-modal *ngIf="currentFarmer" [nzVisible]="modalVisible3" [nzStyle]="{'margin-top':'3%'}" [nzCancelText]="'取消'" [nzOkText]="'确定'"
+    [nzTitle]="'用户信息('+currentFarmer.nickName+')'" [nzConfirmLoading]="loading" [nzContent]="modalContent" (nzOnCancel)="modalVisible3=false"
+    (nzOnOk)="viewOk()">
+    <ng-template #modalContent>
+        <div nz-form-item class="d-flex">
+            <div nz-form-label>
+                <label for="no">用户名: </label>
+            </div>
+            <div nz-form-control class="flex-1">
+                <!-- <nz-input [(ngModel)]="currentFarmer.userName" name="userName" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="userName"
+                    disabled="disabled"></nz-input> -->
+                {{currentFarmer.userName}}
+            </div>
+        </div>
+        <div nz-form-item class="d-flex">
+            <div nz-form-label>
+                <label for="no">昵称: </label>
+            </div>
+            <div nz-form-control class="flex-1">
+                <!-- <nz-input [(ngModel)]="currentFarmer.nickName" name="nickName" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="nickName"
+                    disabled="disabled"></nz-input> -->
+                {{currentFarmer.nickName}}
+            </div>
+        </div>
+        <div nz-form-item class="d-flex">
+            <div nz-form-label>
+                <label for="no">身份: </label>
+            </div>
+            <div nz-form-control class="flex-1">
+                <!-- <nz-input [(ngModel)]="currentFarmer.roleName" name="roleName" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="roleName"
+                    disabled="disabled"></nz-input> -->
+                {{currentFarmer.roleName}}
+            </div>
+        </div>
+        <div nz-form-item class="d-flex">
+            <div nz-form-label>
+                <label for="no">电话: </label>
+            </div>
+            <div nz-form-control class="flex-1">
+                <!-- <nz-input [(ngModel)]="currentFarmer.phone" name="phone" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="phone" disabled="disabled"></nz-input> -->
+                {{currentFarmer.phone}}
+            </div>
+        </div>
+        <div nz-form-item class="d-flex">
+            <div nz-form-label>
+                <label for="no">省: </label>
+            </div>
+            <div nz-form-control class="flex-1">
+                <!-- <nz-input [(ngModel)]="currentFarmer.province" name="province" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="province"
+                    disabled="disabled"></nz-input> -->
+                {{currentFarmer.province}}
+            </div>
+        </div>
+        <div nz-form-item class="d-flex">
+            <div nz-form-label>
+                <label for="no">市: </label>
+            </div>
+            <div nz-form-control class="flex-1">
+                <!-- <nz-input [(ngModel)]="currentFarmer.city" name="city" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="city" disabled="disabled"></nz-input> -->
+                {{currentFarmer.city}}
+            </div>
+        </div>
+        <div nz-form-item class="d-flex">
+            <div nz-form-label>
+                <label for="no">区: </label>
+            </div>
+            <div nz-form-control class="flex-1">
+                <!-- <nz-input [(ngModel)]="currentFarmer.area" name="area" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="area" disabled="disabled"></nz-input> -->
+                {{currentFarmer.area}}
+            </div>
+        </div>
+        <div nz-form-item class="d-flex">
+            <div nz-form-label>
+                <label for="no">通过审核日期: </label>
+            </div>
+            <div nz-form-control class="flex-1">
+                {{currentFarmer.updatedAt | _date}}
+            </div>
+        </div>
+    </ng-template>
+</nz-modal>
