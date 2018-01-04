@@ -12,6 +12,10 @@ import { ProUserLoginComponent } from './pro/user/login/login.component';
 import { ProUserRegisterComponent } from './pro/user/register/register.component';
 import { ProUserRegisterResultComponent } from './pro/user/register-result/register-result.component';
 
+//device
+import { DeviceManagerComponent } from './device-manager/device-manager.component';
+import { DeviceCreateComponent } from './device-manager/device-create/device-create.component';
+
 import { AuthResolveService } from './auth.resolve';
 
 
@@ -28,6 +32,10 @@ import { AuthResolveService } from './auth.resolve';
         ProUserLoginComponent,
         ProUserRegisterComponent,
         ProUserRegisterResultComponent,
+
+        //device
+        DeviceManagerComponent,
+        DeviceCreateComponent
     ],
     providers:[
         AuthResolveService

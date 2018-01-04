@@ -1,0 +1,280 @@
+<pro-header></pro-header>
+<nz-card [nzBordered]="false">
+    <div class="d-flex align-items-center mb-lg">
+        <h3 class="flex-1 text-lg">设备管理</h3>
+        <div>
+            <nz-radio-group [(ngModel)]="q.status" [nzSize]="'large'" class="mr-md" name="qStatus">
+                <label nz-radio-button [nzValue]="'used'">
+                    <span>已分配</span>
+                </label>
+                <label nz-radio-button [nzValue]="'unused'">
+                    <span>未分配</span>
+                </label>
+            </nz-radio-group>
+            <button nz-button type="button" [nzType]="'default'" [nzLoading]="loading" [nzSize]="'large'" (click)="refreshData()">
+                <i class="anticon anticon-sync"></i> 刷新数据</button>
+            &nbsp;&nbsp;
+            <nz-input [nzType]="'search'" [nzPlaceHolder]="'请输入'" [(ngModel)]="q.term" [nzSize]="'large'" style="width: 272px" (keyup.enter)="onSearch()"></nz-input>
+        </div>
+    </div>
+    <button nz-button [nzType]="'dashed'" [nzSize]="'large'" class="ant-btn__block mb-sm" [routerLink]="['/device-create']">
+        <i class="anticon anticon-plus"></i>
+        <span>添加新设备</span>
+    </button>
+    <nz-table #nzTable [nzDataSource]="used_devices" [nzPageSize]="q.ps" [nzLoading]="loading" *ngIf="q.status == 'used'" (nzDataChange)="dataChange($event)"
+        (nzPageIndexChange)="pageChange($event)">
+        <thead nz-thead>
+            <tr>
+                <th nz-th>
+                    <span>设备名称</span>
+                </th>
+                <th nz-th>
+                    <span>设备类型</span>
+                </th>
+                <th nz-th>
+                    <span>分配情况</span>
+                </th>
+                <th nz-th>
+                    <span>更新日期</span>
+                    <nz-table-sort [(nzValue)]="q.updatedAt" (nzValueChange)="sort('updatedAt',$event)"></nz-table-sort>
+                </th>
+                <th nz-th>
+                    <span>操作</span>
+                </th>
+            </tr>
+        </thead>
+        <tbody nz-tbody>
+            <tr nz-tbody-tr *ngFor="let i of nzTable.data">
+                <td nz-td>{{i.productName}}</td>
+                <td nz-td>{{i.productType}}</td>
+                <td nz-td>
+                    <nz-badge [nzStatus]="i.isUse?'processing':'default'" [nzText]="i.isUse?'已分配':'未分配'"></nz-badge>
+                </td>
+                <td nz-td>{{i.updatedAt | _date}}</td>
+                <td nz-td>
+                    <nz-list>
+                        <nz-list-item>
+                            <nz-list-item-action>
+                                <a (click)="view(i)">查看</a>
+                            </nz-list-item-action>
+                            <nz-list-item-action>
+                                <nz-dropdown>
+                                    <a class="ant-dropdown-link" nz-dropdown>
+                                        操作
+                                        <i class="anticon anticon-down"></i>
+                                    </a>
+                                    <ul nz-menu>
+                                        <li nz-menu-item (click)="showEditModal(i)">编辑信息</li>
+                                        <li nz-menu-item (click)="changeToUnused()">解除分配</li>
+                                    </ul>
+                                </nz-dropdown>
+                            </nz-list-item-action>
+                        </nz-list-item>
+                    </nz-list>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+    <nz-table #nzTable [nzDataSource]="unused_devices" [nzPageSize]="q.ps" [nzLoading]="loading" *ngIf="q.status == 'unused'"
+        (nzDataChange)="dataChange($event)" (nzPageIndexChange)="pageChange($event)">
+        <thead nz-thead>
+            <tr>
+                <th nz-th>
+                    <span>设备名称</span>
+                </th>
+                <th nz-th>
+                    <span>设备类型</span>
+                </th>
+                <th nz-th>
+                    <span>分配情况</span>
+                </th>
+                <th nz-th>
+                    <span>更新日期</span>
+                    <nz-table-sort [(nzValue)]="q.updatedAt" (nzValueChange)="sort('updatedAt',$event)"></nz-table-sort>
+                </th>
+                <th nz-th>
+                    <span>操作</span>
+                </th>
+            </tr>
+        </thead>
+        <tbody nz-tbody>
+            <tr nz-tbody-tr *ngFor="let i of nzTable.data">
+                <td nz-td>{{i.productName}}</td>
+                <td nz-td>{{i.productType}}</td>
+                <td nz-td>
+                    <nz-badge [nzStatus]="i.isUse?'processing':'default'" [nzText]="i.isUse?'已分配':'未分配'"></nz-badge>
+                </td>
+                <td nz-td>{{i.updatedAt | _date}}</td>
+                <td nz-td>
+                    <nz-list>
+                        <nz-list-item>
+                            <nz-list-item-action>
+                                <a (click)="view(i)">查看</a>
+                            </nz-list-item-action>
+                            <nz-list-item-action>
+                                <nz-dropdown>
+                                    <a class="ant-dropdown-link" nz-dropdown>
+                                        操作
+                                        <i class="anticon anticon-down"></i>
+                                    </a>
+                                    <ul nz-menu>
+                                        <li nz-menu-item (click)="showEditModal(i)">编辑信息</li>
+                                        <li nz-menu-item (click)="deleteDevice(i)">删除设备</li>
+                                    </ul>
+                                </nz-dropdown>
+                            </nz-list-item-action>
+                        </nz-list-item>
+                    </nz-list>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</nz-card>
+
+<nz-modal *ngIf="currentDevice" [nzVisible]="modalVisible1" [nzStyle]="{'margin-top':'3%'}" [nzCancelText]="'取消'" [nzOkText]="'确定'"
+    [nzTitle]="'设备信息('+currentDevice.productName+')'" [nzConfirmLoading]="loading" [nzContent]="modalContent" (nzOnCancel)="modalVisible1=false"
+    (nzOnOk)="modalVisible1=false">
+    <ng-template #modalContent>
+        <div nz-form-item>
+            <div nz-form-label>
+                <label for="productName">设备名称</label>
+            </div>
+            <div nz-form-control>
+                <nz-input [(ngModel)]="currentDevice.productName" name="productName" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="productName"
+                    disabled="disabled"></nz-input>
+            </div>
+        </div>
+        <div nz-form-item>
+            <div nz-form-label>
+                <label for="productType">设备类型</label>
+            </div>
+            <div nz-form-control>
+                <nz-input [(ngModel)]="currentDevice.productType" name="productType" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="productType"
+                    disabled="disabled"></nz-input>
+            </div>
+        </div>
+        <div nz-form-item>
+            <div nz-form-label>
+                <label for="appid">appid</label>
+            </div>
+            <div nz-form-control>
+                <nz-input [(ngModel)]="currentDevice.appid" name="appid" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="appid" disabled="disabled"></nz-input>
+            </div>
+        </div>
+        <div nz-form-item>
+            <div nz-form-label>
+                <label for="did">did</label>
+            </div>
+            <div nz-form-control>
+                <nz-input [(ngModel)]="currentDevice.did" name="did" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="did" disabled="disabled"></nz-input>
+            </div>
+        </div>
+        <div nz-form-item>
+            <div nz-form-label>
+                <label for="passcode">passcode</label>
+            </div>
+            <div nz-form-control>
+                <nz-input [(ngModel)]="currentDevice.passcode" name="passcode" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="passcode"
+                    disabled="disabled"></nz-input>
+            </div>
+        </div>
+        <div nz-form-item>
+            <div nz-form-label>
+                <label for="note">备注</label>
+            </div>
+            <div nz-form-control>
+                <nz-input [nzType]="'textarea'" nzPlaceHolder="设备的备注（选填）" [(ngModel)]="currentDevice.note" [nzId]="'note'" disabled="disabled"></nz-input>
+            </div>
+        </div>
+        <div nz-form-item>
+            <div nz-form-label>
+                <label for="isUse">分配情况</label>
+            </div>
+            <div nz-form-control>
+                <nz-badge [nzStatus]="currentDevice.isUse?'processing':'default'" [nzText]="currentDevice.isUse?'已分配':'未分配'"></nz-badge>
+            </div>
+        </div>
+        <div nz-form-item>
+            <div nz-form-label>
+                <label for="updatedAt">更新日期</label>
+            </div>
+            <div nz-form-control>
+                {{currentDevice.updatedAt | _date}}
+            </div>
+        </div>
+    </ng-template>
+</nz-modal>
+
+<nz-modal *ngIf="editDevice" [nzVisible]="modalVisible2" [nzStyle]="{'margin-top':'3%'}" [nzCancelText]="'取消'" [nzOkText]="'确认修改'"
+[nzTitle]="'设备信息('+editDevice.productName+')'" [nzConfirmLoading]="loading" [nzContent]="modalContent2" (nzOnCancel)="modalVisible2=false"
+(nzOnOk)="doEditDevice()">
+<ng-template #modalContent2>
+    <div nz-form-item>
+        <div nz-form-label>
+            <label for="productName">设备名称</label>
+        </div>
+        <div nz-form-control>
+            <nz-input [(ngModel)]="editDevice.productName" name="productName" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="productName"
+                ></nz-input>
+        </div>
+    </div>
+    <div nz-form-item>
+        <div nz-form-label>
+            <label for="productType">设备类型</label>
+        </div>
+        <div nz-form-control>
+            <nz-input [(ngModel)]="editDevice.productType" name="productType" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="productType"
+                ></nz-input>
+        </div>
+    </div>
+    <div nz-form-item>
+        <div nz-form-label>
+            <label for="appid">appid</label>
+        </div>
+        <div nz-form-control>
+            <nz-input [(ngModel)]="editDevice.appid" name="appid" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="appid" ></nz-input>
+        </div>
+    </div>
+    <div nz-form-item>
+        <div nz-form-label>
+            <label for="did">did</label>
+        </div>
+        <div nz-form-control>
+            <nz-input [(ngModel)]="editDevice.did" name="did" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="did" ></nz-input>
+        </div>
+    </div>
+    <div nz-form-item>
+        <div nz-form-label>
+            <label for="passcode">passcode</label>
+        </div>
+        <div nz-form-control>
+            <nz-input [(ngModel)]="editDevice.passcode" name="passcode" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="passcode"
+            ></nz-input>
+        </div>
+    </div>
+    <div nz-form-item>
+        <div nz-form-label>
+            <label for="note">备注</label>
+        </div>
+        <div nz-form-control>
+            <nz-input [nzType]="'textarea'" nzPlaceHolder="设备的备注（选填）" [(ngModel)]="editDevice.note" [nzId]="'note'"></nz-input>
+        </div>
+    </div>
+    <div nz-form-item>
+        <div nz-form-label>
+            <label for="isUse">分配情况</label>
+        </div>
+        <div nz-form-control>
+            <nz-badge [nzStatus]="editDevice.isUse?'processing':'default'" [nzText]="editDevice.isUse?'已分配':'未分配'"></nz-badge>
+        </div>
+    </div>
+    <div nz-form-item>
+        <div nz-form-label>
+            <label for="updatedAt">更新日期</label>
+        </div>
+        <div nz-form-control>
+            {{editDevice.updatedAt | _date}}
+        </div>
+    </div>
+</ng-template>
+</nz-modal>

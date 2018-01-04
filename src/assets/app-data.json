@@ -38,6 +38,23 @@
                     "link": "/user-manager-farmer",
                     "translate": "农户管理"
                 }]
+            },
+            {
+                "text": "设备管理",
+                "translate": "设备管理",
+                "icon": "icon-rocket",
+                "children": [{
+                    "text": "设备列表",
+                    "link": "/device-manager",
+                    "translate": "设备列表"
+                },
+                {
+                    "text": "添加设备",
+                    "link": "/device-create",
+                    "translate": "添加设备",
+                    "reuse": false
+                }]
+                
             }
             ]
     }]

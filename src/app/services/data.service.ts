@@ -71,6 +71,15 @@ export class DCDataService {
     }
 
     /**
+     * 修改用户信息
+     * @param user 
+     */
+    editUser(user){
+        let url = environment.host + 'users/user-edit';
+        return this._httpPost(url,user).catch(err => this.handleErr(err));
+    }
+
+    /**
      * 获取当前登陆用户信息
      */
     me() {

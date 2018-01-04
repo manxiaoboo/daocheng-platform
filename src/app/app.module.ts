@@ -24,6 +24,7 @@ import { ALAIN_I18N_TOKEN } from '@delon/theme';
 
 import { DCDataService } from './services/data.service';
 import { DCAuthService } from './services/auth.service';
+import { DeviceDataService } from './services/device.data.service';
 
 import { registerLocaleData } from '@angular/common';
 import localeZhHans from '@angular/common/locales/zh-Hans';
@@ -70,6 +71,7 @@ export function StartupServiceFactory(startupService: StartupService): Function 
         { provide: ALAIN_I18N_TOKEN, useClass: I18NService, multi: false },
         DCDataService,
         DCAuthService,
+        DeviceDataService,
         StartupService,
         {
             provide: APP_INITIALIZER,

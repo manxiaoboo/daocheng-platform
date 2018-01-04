@@ -1,0 +1,101 @@
+<div class="content__title">
+        <h1>
+            创建设备
+            <small>同步机智云信息至稻成</small>
+        </h1>
+        <div class="text-right">
+            
+        </div>
+    </div>
+    <div nz-row [nzGutter]="16">
+        <div nz-col [nzMd]="24">
+            <nz-card>
+                <form nz-form [formGroup]="form" (ngSubmit)="_submitForm()">
+                    <fieldset>
+                        <legend>必要信息</legend>
+                        <div nz-form-item nz-row>
+                            <div nz-form-label nz-col [nzSm]="4">
+                                <label for="productName" nz-form-item-required>
+                                    <span>
+                                        设备名称
+                                        <nz-tooltip [nzTitle]="'请与您在机智云上创建的设备保持一致'">
+                                            <i nz-tooltip class="anticon anticon-question-circle-o"></i>
+                                        </nz-tooltip>
+                                    </span>
+                                </label>
+                            </div>
+                            <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="productName">
+                                <nz-input formControlName="productName" nzPlaceHolder="设备名称" [nzId]="'productName'"></nz-input>
+                                <ng-container *ngIf="productName.dirty || productName.touched">
+                                    <p nz-form-explain *ngIf="productName.errors?.required">请填写设备名称</p>
+                                </ng-container>
+                            </div>
+                        </div>
+                        <div nz-form-item nz-row>
+                                <div nz-form-label nz-col [nzSm]="4">
+                                    <label nz-form-item-required>设备类型</label>
+                                </div>
+                                <div nz-form-control nz-col [nzSm]="20" [nzValidateStatus]="productType">
+                                    <nz-radio-group formControlName="productType">
+                                        <label nz-radio [nzValue]="'农林业生态/农业检测'">
+                                            <span>农林业生态/农业检测</span>
+                                        </label>
+                                    </nz-radio-group>
+                                    <div nz-form-explain *ngIf="(productType.dirty || productType.touched) && productType.errors?.required">请选择设备类型</div>
+                                </div>
+                            </div>
+                        <div nz-form-item nz-row>
+                            <div nz-form-label nz-col [nzSm]="4">
+                                <label for="appid" nz-form-item-required>
+                                    appid
+                                    <nz-tooltip [nzTitle]="'请在机智云：设备-服务-应用配置中查看'">
+                                            <i nz-tooltip class="anticon anticon-question-circle-o"></i>
+                                        </nz-tooltip>
+                                </label>
+                            </div>
+                            <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="appid">
+                                <nz-input formControlName="appid" [nzId]="'appid'"></nz-input>
+                                <div nz-form-explain *ngIf="(appid.dirty || appid.touched) && appid.errors?.required">请填写appid</div>
+                            </div>
+                        </div>
+                        <div nz-form-item nz-row>
+                                <div nz-form-label nz-col [nzSm]="4">
+                                    <label for="did" nz-form-item-required>did</label>
+                                </div>
+                                <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="did">
+                                    <nz-input formControlName="did" [nzId]="'did'"></nz-input>
+                                    <div nz-form-explain *ngIf="(did.dirty || did.touched) && did.errors?.required">请填写did</div>
+                                </div>
+                            </div>
+                        <div nz-form-item nz-row>
+                            <div nz-form-label nz-col [nzSm]="4">
+                                <label for="passcode" nz-form-item-required>passcode</label>
+                            </div>
+                            <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="passcode">
+                                <nz-input formControlName="passcode" [nzId]="'passcode'"></nz-input>
+                                <div nz-form-explain *ngIf="(passcode.dirty || passcode.touched) && passcode.errors?.required">请填写passcode</div>
+                            </div>
+                        </div>
+                        <div nz-form-item nz-row>
+                                <div nz-form-label nz-col [nzSm]="4">
+                                    <label>备注</label>
+                                </div>
+                                <div nz-form-control nz-col [nzSm]="20">
+                                    <nz-input [nzType]="'textarea'" nzPlaceHolder="设备的备注（选填）" formControlName="note" [nzId]="'note'"></nz-input>
+                                </div>
+                            </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend>提交表单</legend>
+                    </fieldset>
+                    <div nz-form-item nz-row class="mb0">
+                        <div nz-form-control nz-col [nzSpan]="20" [nzOffset]="4">
+                            <button nz-button [nzType]="'primary'" [disabled]="form.invalid" [nzLoading]="loading">确认创建</button>
+                            <button nz-button (click)="resetForm($event)">重置表单</button>
+                        </div>
+                    </div>
+                </form>
+            </nz-card>
+        </div>
+    </div>
+    
