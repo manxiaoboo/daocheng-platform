@@ -10,7 +10,7 @@
     },
     "menu": [{
         "text": "主导航",
-        "translate": "main_navigation",
+        "translate": "主导航",
         "group": true,
         "children": [
             {

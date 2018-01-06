@@ -1,0 +1,45 @@
+<div class="modal-header">
+    <div class="modal-title">设备绑定</div>
+</div>
+<nz-table #nzTable [nzDataSource]="devices" [nzPageSize]="'5'" [nzLoading]="loading">
+        <thead nz-thead>
+            <tr>
+                <th nz-th>
+                    <span>设备名称</span>
+                </th>
+                <th nz-th>
+                    <span>设备类型</span>
+                </th>
+                <th nz-th>
+                    <span>备注</span>
+                </th>
+                <th nz-th>
+                    <span>更新时间</span>
+                </th>
+                <th nz-th>
+                    <span>操作</span>
+                </th>
+            </tr>
+        </thead>
+        <tbody nz-tbody>
+            <tr nz-tbody-tr *ngFor="let i of nzTable.data">
+                <td nz-td>{{i.productName}}</td>
+                <td nz-td>{{i.productType}}</td>
+                <td nz-td>{{i.note}} </td>
+                <td nz-td>{{i.updatedAt | _date}}</td>
+                <td nz-td>
+                    <nz-popconfirm [nzTitle]="'确定要绑定此设备吗？'" (nzOnConfirm)="bindDevice(i)">
+                        <a nz-popconfirm>绑定</a>
+                    </nz-popconfirm>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+<div class="modal-footer">
+    <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="cancel()">
+        取消
+    </button>
+    <button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="ok()">
+        确认
+    </button>
+</div>

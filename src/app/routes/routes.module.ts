@@ -15,8 +15,10 @@ import { ProUserRegisterResultComponent } from './pro/user/register-result/regis
 //device
 import { DeviceManagerComponent } from './device-manager/device-manager.component';
 import { DeviceCreateComponent } from './device-manager/device-create/device-create.component';
+import { DeviceSelectorComponent } from './device-manager/device-selector/device-selector';
 
 import { AuthResolveService } from './auth.resolve';
+
 
 
 @NgModule({
@@ -35,10 +37,14 @@ import { AuthResolveService } from './auth.resolve';
 
         //device
         DeviceManagerComponent,
-        DeviceCreateComponent
+        DeviceCreateComponent,
+        DeviceSelectorComponent
     ],
     providers:[
         AuthResolveService
+    ],
+    entryComponents:[
+        DeviceSelectorComponent
     ],
     exports: [
         RouterModule

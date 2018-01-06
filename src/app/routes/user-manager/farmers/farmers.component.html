@@ -80,7 +80,8 @@
                                     </a>
                                     <ul nz-menu>
                                         <li nz-menu-item (click)="showEditModal(i)">编辑信息</li>
-                                        <li nz-menu-item (click)="msg.success('编辑：')">绑定设备</li>
+                                        <li nz-menu-item (click)="bindDevice(i)">绑定设备</li>
+                                        <li nz-menu-item (click)="removeBindDevice(i)">解除设备</li>
                                         <li nz-menu-item (click)="stopUser(i)">停用账户</li>
                                     </ul>
                                 </nz-dropdown>
@@ -149,7 +150,8 @@
                                     </a>
                                     <ul nz-menu>
                                         <li nz-menu-item (click)="showEditModal(i)">编辑信息</li>
-                                        <li nz-menu-item (click)="msg.success('编辑：')">绑定设备</li>
+                                        <li nz-menu-item (click)="bindDevice(i)">绑定设备</li>
+                                        <li nz-menu-item (click)="removeBindDevice(i)">解除设备</li>
                                         <li nz-menu-item (click)="startUser(i)">启用账户</li>
                                     </ul>
                                 </nz-dropdown>

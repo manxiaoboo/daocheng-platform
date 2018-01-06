@@ -18,6 +18,25 @@ export class DeviceDataService {
     }
 
     /**
+     * 根据id获取device
+     * @param deviceId 
+     */
+    getDeviceById(deviceId){
+        let url = environment.host + 'devices/getDeviceById?deviceId='+deviceId;
+        return this._httpGet(url);
+    }
+
+    /**
+     * 获取指定状态的Devices
+     * @param isUse 
+     */
+    getDevicesByIsUse(isUse){
+        let url = environment.host + 'devices/getDevicesByIsUse';
+        let query = {isUse:isUse}
+        return this._httpPost(url,query);
+    }
+
+    /**
      * 创建device
      * @param device 
      */

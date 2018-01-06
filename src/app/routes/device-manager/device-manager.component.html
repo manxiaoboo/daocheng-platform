@@ -155,6 +155,15 @@
         </div>
         <div nz-form-item>
             <div nz-form-label>
+                <label for="username">关联用户名</label>
+            </div>
+            <div nz-form-control>
+                <nz-input [(ngModel)]="currentDevice.username" name="username" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="username"
+                    disabled="disabled"></nz-input>
+            </div>
+        </div>
+        <div nz-form-item>
+            <div nz-form-label>
                 <label for="appid">appid</label>
             </div>
             <div nz-form-control>
@@ -225,6 +234,15 @@
         <div nz-form-control>
             <nz-input [(ngModel)]="editDevice.productType" name="productType" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="productType"
                 ></nz-input>
+        </div>
+    </div>
+    <div nz-form-item>
+        <div nz-form-label>
+            <label for="username">关联用户名</label>
+        </div>
+        <div nz-form-control>
+            <nz-input [(ngModel)]="editDevice.username" name="username" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="username"
+                disabled="disabled"></nz-input>
         </div>
     </div>
     <div nz-form-item>

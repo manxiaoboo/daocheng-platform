@@ -6,7 +6,7 @@ import { DeviceDataService } from '../../services/device.data.service';
 import * as _ from "lodash";
 import { isSameDay } from 'date-fns';
 import { Device } from '../../models';
-
+import { DeviceSelectorComponent } from './device-selector/device-selector';
 
 @Component({
     selector: 'app-device-manager',
@@ -29,6 +29,8 @@ export class DeviceManagerComponent implements OnInit {
     modalVisible2 = false;
     currentDevice:Device;
     editDevice:Device;
+
+    
 
     constructor(public msg: NzMessageService, private modal: NzModalService, private dataservice: DCDataService, private dds: DeviceDataService, private router: Router) {
         
@@ -148,6 +150,8 @@ export class DeviceManagerComponent implements OnInit {
         }
         this.modal.confirm(option);
     }
+
+    
 
     dataChange(e) {
 
