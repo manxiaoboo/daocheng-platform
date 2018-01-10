@@ -80,6 +80,25 @@ export class DCDataService {
     }
 
     /**
+     * 修改专家信息
+     * @param expert 
+     */
+    editExpert(expert){
+        let url = environment.host + 'users/expert-edit';
+        return this._httpPost(url,expert).catch(err => this.handleErr(err));
+        
+    }
+
+    /**
+     * 根据userId获取专家信息
+     * @param userId 
+     */
+    getExpertById(userId){
+        let url = environment.host + 'users/expertByUserId?userId='+userId;
+        return this._httpGet(url).catch(err => this.handleErr(err));
+    }
+
+    /**
      * 获取当前登陆用户信息
      */
     me() {

@@ -37,6 +37,10 @@
                     "text": "农户管理",
                     "link": "/user-manager-farmer",
                     "translate": "农户管理"
+                },{
+                    "text": "专家管理",
+                    "link": "/user-manager-expert",
+                    "translate": "专家管理"
                 }]
             },
             {

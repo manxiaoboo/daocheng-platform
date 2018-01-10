@@ -222,7 +222,7 @@ export class VerifyUserComponent implements OnInit {
                     setTimeout(() => {
                         this.modal.success({
                             title: `操作成功`,
-                            content: `此用户(${this.currentAuditUser.userName})已经通过审核，请为此用户分配设备并开通使用权限。`
+                            content: `此用户(${this.currentAuditUser.userName})已经通过审核，请为此用户${this.currentAuditUser.roleName == '农户'?'分配设备并':''}开通使用权限。`
                         });
                         this.refreshDatas();
                     }, 500);
