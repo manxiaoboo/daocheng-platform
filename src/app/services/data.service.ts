@@ -53,6 +53,41 @@ export class DCDataService {
     }
 
     /**
+     * 获取所有专业列表
+     */
+    getAllDomains(){
+        let url = environment.host + 'users/all-domain';
+        return this._httpGet(url).catch(err => this.handleErr(err));
+    }
+
+    /**
+     * 创建一个domain
+     * @param domain 
+     */
+    createDomain(domain){
+        let url = environment.host + 'users/create-domain';
+        return this._httpPost(url,domain);
+    }
+
+    /**
+     * 修改一个domain
+     * @param domain 
+     */
+    editDomain(domain){
+        let url = environment.host + 'users/edit-domain';
+        return this._httpPost(url,domain);
+    }
+
+    /**
+     * 删除一个domain
+     * @param domain 
+     */
+    deleteDomain(domain){
+        let url = environment.host + 'users/delete-domain';
+        return this._httpPost(url,domain);
+    }
+
+    /**
      * 拒绝审核申请
      * @param audit_user 
      */

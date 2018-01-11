@@ -9,6 +9,7 @@ import { DashboardWorkplaceComponent } from './dashboard/workplace/workplace.com
 import { VerifyUserComponent } from './verify/verify-user/verify-user.component';
 import { UserFarmerManagerComponent } from './user-manager/farmers/farmers.component';
 import { UserExpertManagerComponent } from './user-manager/experts/experts.component';
+import { UserDomainComponent } from './user-manager/domain/domain.component';
 // pro
 import { ProUserLoginComponent } from './pro/user/login/login.component';
 import { ProUserRegisterComponent } from './pro/user/register/register.component';
@@ -34,6 +35,7 @@ import { AuthResolveService } from './auth.resolve';
         VerifyUserComponent,
         UserFarmerManagerComponent,
         UserExpertManagerComponent,
+        UserDomainComponent,
         // pro
         ProUserLoginComponent,
         ProUserRegisterComponent,

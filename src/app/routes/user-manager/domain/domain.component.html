@@ -1,0 +1,104 @@
+<pro-header></pro-header>
+<nz-card [nzBordered]="true">
+        <div class="d-flex align-items-center mb-lg">
+            <h3 class="flex-1 text-lg">专业领域列表</h3>
+        </div>
+        <button nz-button (click)="addDomain()" [nzType]="'dashed'" [nzSize]="'large'" class="ant-btn__block mb-sm">
+            <i class="anticon anticon-plus"></i>
+            <span>添加新领域</span>
+        </button>
+        <nz-table #nzTable [nzDataSource]="domains" [nzPageSize]="q.ps" [nzLoading]="loading"
+            (nzDataChange)="dataChange($event)" (nzPageIndexChange)="pageChange($event)">
+            <thead nz-thead>
+                <tr>
+                    <th nz-th>
+                        <span>领域名称</span>
+                    </th>
+                    <th nz-th>
+                        <span>创建日期</span>
+                    </th>
+                    <th nz-th>
+                        <span>更新日期</span>
+                        <nz-table-sort [(nzValue)]="sortMap.updatedAt" (nzValueChange)="sort('updatedAt',$event)"></nz-table-sort>
+                    </th>
+                    <th nz-th>
+                        <span>操作</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody nz-tbody>
+                <tr nz-tbody-tr *ngFor="let i of nzTable.data">
+                    <td nz-td>{{i.name}}</td>
+                    <td nz-td>{{i.createdAt | _date}}</td>
+                    <td nz-td>{{i.updatedAt | _date}}</td>
+                    <td nz-td>
+                        <nz-list>
+                            <nz-list-item>
+                                <nz-list-item-action>
+                                    <nz-dropdown>
+                                        <a class="ant-dropdown-link" nz-dropdown>
+                                            操作
+                                            <i class="anticon anticon-down"></i>
+                                        </a>
+                                        <ul nz-menu>
+                                            <li nz-menu-item (click)="showEditModal(i)">编辑信息</li>
+                                            <li nz-menu-item (click)="deleteDomain(i)">删除领域</li>
+                                        </ul>
+                                    </nz-dropdown>
+                                </nz-list-item-action>
+                            </nz-list-item>
+                        </nz-list>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </nz-card>
+
+
+    <nz-modal *ngIf="newDomain" [nzVisible]="modalVisible" [nzStyle]="{'margin-top':'3%'}" [nzWrapClassName]="'modal-lg'"
+    [nzCancelText]="'取消'" [nzOkText]="'确认创建'" [nzTitle]="'新建专业领域'" [nzConfirmLoading]="loading" [nzContent]="modalContent"
+    (nzOnCancel)="modalVisible=false" (nzOnOk)="createDomain()">
+    <ng-template #modalContent>
+        <fieldset>
+            <legend>领域信息</legend>
+            <div nz-row [nzGutter]="24">
+                <form nz-form [nzLayout]="'inline'">
+                    <div nz-col [nzSpan]="24" class="mb-md">
+                        <div nz-form-item class="d-flex">
+                            <div nz-form-label>
+                                <label for="name">领域名称</label>
+                            </div>
+                            <div nz-form-control class="flex-1">
+                                <nz-input [(ngModel)]="newDomain.name" name="name" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="name"></nz-input>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+    </ng-template>
+</nz-modal>
+
+<nz-modal *ngIf="editDomain" [nzVisible]="modalEdit" [nzStyle]="{'margin-top':'3%'}" [nzWrapClassName]="'modal-lg'"
+[nzCancelText]="'取消'" [nzOkText]="'确认修改'" [nzTitle]="'修改专业领域'" [nzConfirmLoading]="loading" [nzContent]="modalContent"
+(nzOnCancel)="modalEdit=false" (nzOnOk)="doEdit()">
+<ng-template #modalContent>
+    <fieldset>
+        <legend>领域信息</legend>
+        <div nz-row [nzGutter]="24">
+            <form nz-form [nzLayout]="'inline'">
+                <div nz-col [nzSpan]="24" class="mb-md">
+                    <div nz-form-item class="d-flex">
+                        <div nz-form-label>
+                            <label for="name">领域名称</label>
+                        </div>
+                        <div nz-form-control class="flex-1">
+                            <nz-input [(ngModel)]="editDomain.name" name="name" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="name"></nz-input>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </fieldset>
+</ng-template>
+</nz-modal>

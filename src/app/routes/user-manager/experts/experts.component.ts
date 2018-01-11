@@ -36,6 +36,7 @@ export class UserExpertManagerComponent implements OnInit, OnDestroy {
     currentExpert;
     currentExpertUser;
     editExpert;
+    domains = [];
 
     options = {};
     constructor(public msg: NzMessageService,
@@ -51,6 +52,7 @@ export class UserExpertManagerComponent implements OnInit, OnDestroy {
             return f.name == 'expert';
         })[0];
         this.getExperts();
+        this.getDomains();
     }
 
     getExperts() {
@@ -69,6 +71,12 @@ export class UserExpertManagerComponent implements OnInit, OnDestroy {
         });
     }
 
+    async getDomains() {
+        let dr: any = await this.dataservice.getAllDomains();
+        this.domains = dr.json();
+        console.info(this.domains);
+    }
+
     handleValidateDatas() {
         this.validate_experts = this.experts.filter(f => {
             return f.isValidate;
@@ -81,18 +89,16 @@ export class UserExpertManagerComponent implements OnInit, OnDestroy {
     async view(f) {
         this.loading = true;
         this.currentExpert = f;
-        let expert:any = await this.dataservice.getExpertById(f.id);
+        let expert: any = await this.dataservice.getExpertById(f.id);
         this.currentExpertUser = expert.json();
-        console.info(this.currentExpertUser);
         this.loading = false;
         this.modalVisible3 = true;
     }
     async showEditModal(f) {
         this.editExpert = f;
         this.loading = true;
-        let expert:any = await this.dataservice.getExpertById(f.id);
+        let expert: any = await this.dataservice.getExpertById(f.id);
         this.currentExpertUser = expert.json();
-        console.info(this.currentExpertUser);
         this.loading = false;
         this.modalEdit = true;
     }
@@ -104,11 +110,11 @@ export class UserExpertManagerComponent implements OnInit, OnDestroy {
             onOk: () => {
                 this.loading = true;
                 this.dataservice.editUser(this.editExpert).then(e => {
-                    this.dataservice.editExpert(this.currentExpertUser).then(()=>{
+                    this.dataservice.editExpert(this.currentExpertUser).then(() => {
                         this.loading = false;
                         this.msg.success("变更用户信息成功");
                         this.modalEdit = false;
-                    }).catch(err=>{
+                    }).catch(err => {
                         this.loading = false;
                         this.msg.error("抱歉，变更失败");
                         this.modalEdit = false;

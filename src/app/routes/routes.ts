@@ -6,6 +6,7 @@ import { VerifyUserComponent } from './verify/verify-user/verify-user.component'
 //usermanager
 import { UserFarmerManagerComponent } from './user-manager/farmers/farmers.component';
 import { UserExpertManagerComponent } from './user-manager/experts/experts.component';
+import { UserDomainComponent } from './user-manager/domain/domain.component';
 
 //pro
 import { ProUserLayoutComponent } from '../layout/pro/user/user.component';
@@ -31,6 +32,7 @@ export const routes = [
             { path: 'verify-user', component: VerifyUserComponent, data: { translate: '用户审核' } },
             { path: 'user-manager-farmer', component: UserFarmerManagerComponent, data: { translate: '农户管理' } },
             { path: 'user-manager-expert', component: UserExpertManagerComponent, data: {translate: '专家管理'} },
+            { path: 'user-manager-domain', component: UserDomainComponent, data:{translate:'领域维护'} },
             { path: 'device-manager', component: DeviceManagerComponent, data: { translate: '设备列表' } },
             { path: 'device-create', component: DeviceCreateComponent, data: { translate: '创建设备' } },
             { path: 'pro', loadChildren: './pro/pro.module#ProModule' }

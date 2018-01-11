@@ -122,7 +122,7 @@ const ZORROMODULES = [
 // region: @delon/abc modules
 import {
     AdSimpleTableModule,
-    AdReuseTabModule,
+    // AdReuseTabModule,
     AdAvatarListModule,
     AdChartsModule,
     AdCountDownModule,
@@ -146,7 +146,7 @@ import {
 } from '@delon/abc';
 const ABCMODULES = [
     AdSimpleTableModule,
-    AdReuseTabModule,
+    // AdReuseTabModule,
     AdAvatarListModule,
     AdChartsModule,
     AdCountDownModule,

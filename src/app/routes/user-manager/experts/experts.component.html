@@ -3,6 +3,8 @@
     <div class="d-flex align-items-center mb-lg">
         <h3 class="flex-1 text-lg">专家列表</h3>
         <div>
+            <button nz-button type="button" [nzType]="'primary'" [nzLoading]="loading" [nzSize]="'large'" [routerLink]="['/user-manager-domain']">专业领域维护</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;
             <nz-radio-group [(ngModel)]="q.status" [nzSize]="'large'" class="mr-md" name="qStatus">
                 <label nz-radio-button [nzValue]="'validate'">
                     <span>已开通</span>
@@ -263,7 +265,10 @@
                                 <label for="domain">领域</label>
                             </div>
                             <div nz-form-control class="flex-1">
-                                <nz-input [(ngModel)]="currentExpertUser.domain" name="domain" [nzSize]="'large'" [nzPlaceHolder]="'尚未选择'" nzId="domain" disabled="disabled"></nz-input>
+                                <!-- <nz-input [(ngModel)]="currentExpertUser.domain" name="domain" [nzSize]="'large'" [nzPlaceHolder]="'尚未选择'" nzId="domain" disabled="disabled"></nz-input> -->
+                                <nz-select [(ngModel)]="currentExpertUser.domain" name="domain" nzId="domain" [nzPlaceHolder]="'请选择'" [nzShowSearch]="true" [nzSize]="'large'" disabled="disabled">
+                                        <nz-option *ngFor="let i of domains; let idx = index" [nzLabel]="i.name" [nzValue]="i.id"></nz-option>
+                                    </nz-select>
                             </div>
                         </div>
                     </div>
@@ -303,8 +308,8 @@
     </ng-template>
 </nz-modal>
 
-<nz-modal *ngIf="currentExpert" [nzVisible]="modalEdit" [nzStyle]="{'margin-top':'3%'}" [nzWrapClassName]="'modal-lg'" [nzCancelText]="'取消'"
-    [nzOkText]="'确认修改'" [nzTitle]="'用户信息('+currentExpert.nickName+')'" [nzConfirmLoading]="loading" [nzContent]="modalContent1"
+<nz-modal *ngIf="editExpert" [nzVisible]="modalEdit" [nzStyle]="{'margin-top':'3%'}" [nzWrapClassName]="'modal-lg'" [nzCancelText]="'取消'"
+    [nzOkText]="'确认修改'" [nzTitle]="'用户信息('+editExpert.nickName+')'" [nzConfirmLoading]="loading" [nzContent]="modalContent1"
     (nzOnCancel)="modalEdit=false" (nzOnOk)="doEditExpert()">
     <ng-template #modalContent1>
         <fieldset>
@@ -317,7 +322,7 @@
                                 <label for="userName">用户名</label>
                             </div>
                             <div nz-form-control class="flex-1">
-                                <nz-input [(ngModel)]="currentExpert.userName" name="userName" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="userName"></nz-input>
+                                <nz-input [(ngModel)]="editExpert.userName" name="userName" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="userName"></nz-input>
                             </div>
                         </div>
                     </div>
@@ -327,7 +332,7 @@
                                 <label for="nickName">昵称</label>
                             </div>
                             <div nz-form-control class="flex-1">
-                                <nz-input [(ngModel)]="currentExpert.nickName" name="nickName" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="nickName"></nz-input>
+                                <nz-input [(ngModel)]="editExpert.nickName" name="nickName" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="nickName"></nz-input>
                             </div>
                         </div>
                     </div>
@@ -337,7 +342,7 @@
                                 <label for="roleName">身份</label>
                             </div>
                             <div nz-form-control class="flex-1">
-                                <nz-input [(ngModel)]="currentExpert.roleName" name="roleName" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="roleName"
+                                <nz-input [(ngModel)]="editExpert.roleName" name="roleName" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="roleName"
                                     disabled="disabled"></nz-input>
                             </div>
                         </div>
@@ -348,7 +353,7 @@
                                 <label for="phone">电话</label>
                             </div>
                             <div nz-form-control class="flex-1">
-                                <nz-input [(ngModel)]="currentExpert.phone" name="phone" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="phone"></nz-input>
+                                <nz-input [(ngModel)]="editExpert.phone" name="phone" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="phone"></nz-input>
                             </div>
                         </div>
                     </div>
@@ -358,7 +363,7 @@
                                 <label for="province">省 </label>
                             </div>
                             <div nz-form-control class="flex-1">
-                                <nz-input [(ngModel)]="currentExpert.province" name="province" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="province"></nz-input>
+                                <nz-input [(ngModel)]="editExpert.province" name="province" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="province"></nz-input>
                             </div>
                         </div>
                     </div>
@@ -368,7 +373,7 @@
                                 <label for="city">市</label>
                             </div>
                             <div nz-form-control class="flex-1">
-                                <nz-input [(ngModel)]="currentExpert.city" name="city" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="city"></nz-input>
+                                <nz-input [(ngModel)]="editExpert.city" name="city" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="city"></nz-input>
                             </div>
                         </div>
                     </div>
@@ -378,7 +383,7 @@
                                 <label for="area">区</label>
                             </div>
                             <div nz-form-control class="flex-1">
-                                <nz-input [(ngModel)]="currentExpert.area" name="area" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="area"></nz-input>
+                                <nz-input [(ngModel)]="editExpert.area" name="area" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="area"></nz-input>
                             </div>
                         </div>
                     </div>
@@ -388,7 +393,7 @@
                                 <label for="updatedAt">通过审核日期</label>
                             </div>
                             <div nz-form-control class="flex-1">
-                                {{currentExpert.updatedAt | _date}}
+                                {{editExpert.updatedAt | _date}}
                             </div>
                         </div>
                     </div>
@@ -415,7 +420,9 @@
                                     <label for="domain">领域</label>
                                 </div>
                                 <div nz-form-control class="flex-1">
-                                    <nz-input [(ngModel)]="currentExpertUser.domain" name="domain" [nzSize]="'large'" [nzPlaceHolder]="'尚未选择'" nzId="domain"></nz-input>
+                                    <nz-select [(ngModel)]="currentExpertUser.domain" name="domain" nzId="domain" [nzPlaceHolder]="'请选择'" [nzShowSearch]="true" [nzSize]="'large'">
+                                            <nz-option *ngFor="let i of domains; let idx = index" [nzLabel]="i.name" [nzValue]="i.id"></nz-option>
+                                        </nz-select>
                                 </div>
                             </div>
                         </div>
