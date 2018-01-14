@@ -29,10 +29,14 @@ export class DeviceSelectorComponent {
         this.loading = true;
         this.farmer.deviceId = device.id;
         device.isUse = true;
-        device.username = this.farmer.userName;
-        device.password = this.farmer.password;
+        device.username = this.farmer.id;
+        device.password = this.farmer.id;
         await this.dataservice.editUser(this.farmer);
         await this.dds.editDevice(device);
+        await this.dds.registToJZY(device);
+        let utr:any = await this.dds.loginToJZY(device);
+        let usertoken = utr.json();
+        await this.dds.bindingsToJZY(device,usertoken.token);
         this.loading = false;
         this.msg.success("绑定设备成功");
         this.subject.next('success');

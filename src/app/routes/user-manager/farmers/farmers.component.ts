@@ -217,6 +217,9 @@ export class UserFarmerManagerComponent implements OnInit, OnDestroy {
                     this.msg.error("系统没有找到此设备信息");
                     return;
                 }
+                let utr:any = await this.dds.loginToJZY(device);
+                let usertoken = utr.json();
+                await this.dds.unBindingToJZY(device,usertoken.token);
                 device.username = null;
                 device.password = null;
                 device.isUse = false;
