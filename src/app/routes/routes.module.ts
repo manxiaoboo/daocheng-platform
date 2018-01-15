@@ -10,6 +10,8 @@ import { VerifyUserComponent } from './verify/verify-user/verify-user.component'
 import { UserFarmerManagerComponent } from './user-manager/farmers/farmers.component';
 import { UserExpertManagerComponent } from './user-manager/experts/experts.component';
 import { UserDomainComponent } from './user-manager/domain/domain.component';
+import { UserDistributorsManagerComponent } from './user-manager/distributors/distributors.component';
+
 // pro
 import { ProUserLoginComponent } from './pro/user/login/login.component';
 import { ProUserRegisterComponent } from './pro/user/register/register.component';
@@ -36,6 +38,8 @@ import { AuthResolveService } from './auth.resolve';
         UserFarmerManagerComponent,
         UserExpertManagerComponent,
         UserDomainComponent,
+        UserDistributorsManagerComponent,
+        
         // pro
         ProUserLoginComponent,
         ProUserRegisterComponent,

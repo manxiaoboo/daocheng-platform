@@ -41,6 +41,11 @@
                     "text": "专家管理",
                     "link": "/user-manager-expert",
                     "translate": "专家管理"
+                },
+                {
+                    "text": "经销商管理",
+                    "link": "/user-manager-distributor",
+                    "translate": "经销商管理"
                 }]
             },
             {

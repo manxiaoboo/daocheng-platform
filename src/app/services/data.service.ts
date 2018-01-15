@@ -134,6 +134,25 @@ export class DCDataService {
     }
 
     /**
+     * 根据userId获取经销商信息
+     * @param userId 
+     */
+    getDistributorById(userId){
+        let url = environment.host + 'users/distributorByUserId?userId='+userId;
+        return this._httpGet(url).catch(err => this.handleErr(err));
+    }
+
+    /**
+     * 修改经销商信息
+     * @param expert 
+     */
+    editDistributor(distributor){
+        let url = environment.host + 'users/distributor-edit';
+        return this._httpPost(url,distributor).catch(err => this.handleErr(err));
+        
+    }
+
+    /**
      * 获取当前登陆用户信息
      */
     me() {
