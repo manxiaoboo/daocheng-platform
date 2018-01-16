@@ -250,6 +250,16 @@
                     <div nz-col [nzSpan]="12" class="mb-md">
                         <div nz-form-item class="d-flex">
                             <div nz-form-label>
+                                <label for="name">店铺名称</label>
+                            </div>
+                            <div nz-form-control class="flex-1">
+                                <nz-input [(ngModel)]="currentDistributorUser.name" name="name" [nzSize]="'large'" [nzPlaceHolder]="'尚未填写'" nzId="name" disabled="disabled"></nz-input>
+                            </div>
+                        </div>
+                    </div>
+                    <div nz-col [nzSpan]="12" class="mb-md">
+                        <div nz-form-item class="d-flex">
+                            <div nz-form-label>
                                 <label for="address">详细地址</label>
                             </div>
                             <div nz-form-control class="flex-1">
@@ -395,11 +405,20 @@
                     <div nz-col [nzSpan]="12" class="mb-md">
                         <div nz-form-item class="d-flex">
                             <div nz-form-label>
+                                <label for="name">店铺地址</label>
+                            </div>
+                            <div nz-form-control class="flex-1">
+                                <nz-input [(ngModel)]="currentDistributorUser.name" name="name" [nzSize]="'large'" [nzPlaceHolder]="'尚未填写'" nzId="name"></nz-input>
+                            </div>
+                        </div>
+                    </div>
+                    <div nz-col [nzSpan]="12" class="mb-md">
+                        <div nz-form-item class="d-flex">
+                            <div nz-form-label>
                                 <label for="address">详细地址</label>
                             </div>
                             <div nz-form-control class="flex-1">
-                                <nz-input [(ngModel)]="currentDistributorUser.address" name="address" [nzSize]="'large'" [nzPlaceHolder]="'尚未填写'" nzId="address"
-                                ></nz-input>
+                                <nz-input [(ngModel)]="currentDistributorUser.address" name="address" [nzSize]="'large'" [nzPlaceHolder]="'尚未填写'" nzId="address"></nz-input>
                             </div>
                         </div>
                     </div>
@@ -409,8 +428,7 @@
                                 <label for="contact">联系人</label>
                             </div>
                             <div nz-form-control class="flex-1">
-                                <nz-input [(ngModel)]="currentDistributorUser.contact" name="contact" [nzSize]="'large'" [nzPlaceHolder]="'尚未填写'" nzId="contact"
-                                ></nz-input>
+                                <nz-input [(ngModel)]="currentDistributorUser.contact" name="contact" [nzSize]="'large'" [nzPlaceHolder]="'尚未填写'" nzId="contact"></nz-input>
                             </div>
                         </div>
                     </div>
@@ -420,7 +438,7 @@
                                 <label for="contactPhone">联系电话</label>
                             </div>
                             <div nz-form-control class="flex-1">
-                                <nz-input [(ngModel)]="currentDistributorUser.contactPhone" name="contactPhone" [nzSize]="'large'" nzId="contactPhone" ></nz-input>
+                                <nz-input [(ngModel)]="currentDistributorUser.contactPhone" name="contactPhone" [nzSize]="'large'" nzId="contactPhone"></nz-input>
                             </div>
                         </div>
                     </div>
@@ -430,8 +448,7 @@
                                 <label for="intro">简介</label>
                             </div>
                             <div nz-form-control class="flex-1">
-                                <nz-input [(ngModel)]="currentDistributorUser.intro" name="intro" nzType="textarea" [nzAutosize]="autosize" nzPlaceHolder="尚未填写简介"
-                                ></nz-input>
+                                <nz-input [(ngModel)]="currentDistributorUser.intro" name="intro" nzType="textarea" [nzAutosize]="autosize" nzPlaceHolder="尚未填写简介"></nz-input>
                             </div>
                         </div>
                     </div>
