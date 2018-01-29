@@ -1,6 +1,6 @@
 export const environment = {
     SERVER_URL: `./`,
-    host:'https://tbsbpisy.qcloud.la/',
+    host:'https://302354561.dcpingtai.xyz/',
     production: true,
     hmr: false,
     useHash: true

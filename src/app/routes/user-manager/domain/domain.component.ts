@@ -4,6 +4,9 @@ import { getTimeDistance, yuan, fixedZero } from '@delon/abc';
 import { getNotice, getActivities } from '../../../../../_mock/api.service';
 import { getFakeChartData } from '../../../../../_mock/chart.service';
 import { DCDataService } from '../../../services/data.service';
+import * as _ from "lodash";
+
+
 
 @Component({
     selector: 'app-user-domain',
@@ -31,6 +34,10 @@ export class UserDomainComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.getDomains();
+    }
+
+    sort(field: string, value: any) {
+        this.domains = _.orderBy(this.domains, [field], [value == 'ascend' ? 'asc' : 'desc']);
     }
 
     getDomains(){
