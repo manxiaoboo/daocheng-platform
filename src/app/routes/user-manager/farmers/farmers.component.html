@@ -60,10 +60,10 @@
                 <td nz-td>{{i.userName}}</td>
                 <td nz-td>{{i.nickName}}</td>
                 <td nz-td *ngIf="i.roleName">{{i.roleName}}</td>
-                <td nz-td>{{i.phone}} </td>
                 <td nz-td>
                         <nz-badge [nzStatus]="i.deviceId?'processing':'default'" [nzText]="i.deviceId?'已绑定':'未绑定'"></nz-badge>
                     </td>
+                <td nz-td>{{i.phone}} </td>
                 <td nz-td>{{i.province}}/{{i.city}}/{{i.area}}</td>
                 <td nz-td>{{i.updatedAt | _date}}</td>
                 <td nz-td>
