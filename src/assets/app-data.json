@@ -60,10 +60,25 @@
                 {
                     "text": "添加设备",
                     "link": "/device-create",
-                    "translate": "添加设备",
-                    "reuse": false
+                    "translate": "添加设备"
                 }]
-                
+
+            },
+            {
+                "text": "基础数据维护",
+                "translate": "基础数据维护",
+                "icon": "icon-compass",
+                "children": [{
+                    "text": "专业领域维护",
+                    "link": "/user-manager-domain",
+                    "translate": "专业领域维护"
+                },
+                {
+                    "text": "商品类型维护",
+                    "link": "/distributor-types",
+                    "translate": "商品类型维护"
+                }]
+
             }
             ]
     }]

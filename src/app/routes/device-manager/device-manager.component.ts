@@ -18,7 +18,7 @@ export class DeviceManagerComponent implements OnInit {
         ps: 5,
         updatedAt: '',
         status: 'used',
-        term:''
+        term: ''
     };
 
     devices: Array<Device> = [];
@@ -27,13 +27,13 @@ export class DeviceManagerComponent implements OnInit {
     loading = false;
     modalVisible1 = false;
     modalVisible2 = false;
-    currentDevice:Device;
-    editDevice:Device;
+    currentDevice: Device;
+    editDevice: Device;
 
-    
+
 
     constructor(public msg: NzMessageService, private modal: NzModalService, private dataservice: DCDataService, private dds: DeviceDataService, private router: Router) {
-        
+
     }
 
     ngOnInit() {
@@ -65,26 +65,26 @@ export class DeviceManagerComponent implements OnInit {
     onSearch() {
         this.loading = true;
         this.handleValidateDatas();
-        if(!this.q.term){
+        if (!this.q.term) {
             this.handleValidateDatas();
             this.loading = false;
             return;
         }
         if (this.q.status == 'used') {
             this.used_devices = this.used_devices.filter(vf => {
-                return  vf.productName.indexOf(this.q.term) != -1 ||
-                        vf.productType.indexOf(this.q.term) != -1;
+                return vf.productName.indexOf(this.q.term) != -1 ||
+                    vf.productType.indexOf(this.q.term) != -1;
             });
         } else {
             this.unused_devices = this.unused_devices.filter(vf => {
-                return  vf.productName.indexOf(this.q.term) != -1 ||
-                vf.productType.indexOf(this.q.term) != -1;
+                return vf.productName.indexOf(this.q.term) != -1 ||
+                    vf.productType.indexOf(this.q.term) != -1;
             });
         }
         this.loading = false;
     }
 
-    changeToUnused(){
+    changeToUnused() {
         let option = {
             title: "提示",
             content: "请前往农户管理页面，找到对应农户并解绑此设备"
@@ -92,66 +92,79 @@ export class DeviceManagerComponent implements OnInit {
         this.modal.info(option);
     }
 
-    view(device){
+    view(device) {
         this.currentDevice = device;
-        this.modalVisible1 = true;
+        this.loading = true;
+        this.dataservice.getUser(device.username).then((u: any) => {
+            const user = u.json();
+            this.currentDevice['user'] = user;
+            this.modalVisible1 = true;
+            this.loading = false;
+        });
+
     }
 
-    showEditModal(device){
+    showEditModal(device) {
         this.editDevice = device;
-        this.modalVisible2 = true;
+        this.loading = true;
+        this.dataservice.getUser(device.username).then((u: any) => {
+            const user = u.json();
+            this.editDevice['user'] = user;
+            this.modalVisible2 = true;
+            this.loading = false;
+        });
     }
 
     getAllDevices(): any {
         return this.dds.getAllDevice();
     }
 
-    doEditDevice(){
+    doEditDevice() {
         let option = {
             title: "确认",
             content: "你确认审核数据并修改此设备信息吗？",
             onOk: () => {
                 this.loading = true;
-                this.dds.editDevice(this.editDevice).then(()=>{
+                this.dds.editDevice(this.editDevice).then(() => {
                     this.msg.success('修改设备成功');
                     this.loading = false;
                     this.modalVisible2 = false;
                     this.refreshData();
-                }).catch(err=>{
+                }).catch(err => {
                     this.msg.error('修改设备失败');
                     this.loading = false;
                 });
             },
             onCancel: () => {
-                
+
             }
         }
         this.modal.confirm(option);
     }
 
-    deleteDevice(device){
+    deleteDevice(device) {
         let option = {
             title: "危险",
             content: "你确认要永久删除此设备吗？",
             onOk: () => {
                 this.loading = true;
-                this.dds.deleteDevice(device).then(()=>{
+                this.dds.deleteDevice(device).then(() => {
                     this.msg.success('删除设备成功');
                     this.loading = false;
                     this.refreshData();
-                }).catch(err=>{
+                }).catch(err => {
                     this.msg.error('删除设备失败');
                     this.loading = false;
                 });
             },
             onCancel: () => {
-                
+
             }
         }
         this.modal.confirm(option);
     }
 
-    
+
 
     dataChange(e) {
 

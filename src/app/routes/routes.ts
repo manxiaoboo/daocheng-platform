@@ -8,6 +8,7 @@ import { UserFarmerManagerComponent } from './user-manager/farmers/farmers.compo
 import { UserExpertManagerComponent } from './user-manager/experts/experts.component';
 import { UserDomainComponent } from './user-manager/domain/domain.component';
 import { UserDistributorsManagerComponent } from './user-manager/distributors/distributors.component';
+import { DistributorsTypeComponent } from './user-manager/distributors/types/types.component';
 
 //pro
 import { ProUserLayoutComponent } from '../layout/pro/user/user.component';
@@ -32,9 +33,10 @@ export const routes = [
             { path: 'dashboard', component: DashboardWorkplaceComponent, data: { translate: '工作台' } },
             { path: 'verify-user', component: VerifyUserComponent, data: { translate: '用户审核' } },
             { path: 'user-manager-farmer', component: UserFarmerManagerComponent, data: { translate: '农户管理' } },
-            { path: 'user-manager-expert', component: UserExpertManagerComponent, data: {translate: '专家管理'} },
-            { path: 'user-manager-domain', component: UserDomainComponent, data:{translate:'领域维护'} },
-            { path: 'user-manager-distributor', component: UserDistributorsManagerComponent, data:{translate:'经销商管理'} },
+            { path: 'user-manager-expert', component: UserExpertManagerComponent, data: { translate: '专家管理' } },
+            { path: 'user-manager-domain', component: UserDomainComponent, data: { translate: '领域维护' } },
+            { path: 'distributor-types', component: DistributorsTypeComponent, data: { translate: '商品类型维护' } },
+            { path: 'user-manager-distributor', component: UserDistributorsManagerComponent, data: { translate: '经销商管理' } },
             { path: 'device-manager', component: DeviceManagerComponent, data: { translate: '设备列表' } },
             { path: 'device-create', component: DeviceCreateComponent, data: { translate: '创建设备' } },
             { path: 'pro', loadChildren: './pro/pro.module#ProModule' }

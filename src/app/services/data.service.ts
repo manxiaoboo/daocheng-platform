@@ -29,7 +29,7 @@ export class DCDataService {
 
     /**
      * 根据身份获取用户
-     * @param roleId 
+     * @param roleId
      */
     getUsersByRole(roleId) {
         let url = environment.host + 'users/all-user?roleId=' + roleId;
@@ -55,50 +55,85 @@ export class DCDataService {
     /**
      * 获取所有专业列表
      */
-    getAllDomains(){
+    getAllDomains() {
         let url = environment.host + 'users/all-domain';
         return this._httpGet(url).catch(err => this.handleErr(err));
     }
 
     /**
      * 创建一个domain
-     * @param domain 
+     * @param domain
      */
-    createDomain(domain){
+    createDomain(domain) {
         let url = environment.host + 'users/create-domain';
-        return this._httpPost(url,domain);
+        return this._httpPost(url, domain);
     }
 
     /**
      * 修改一个domain
-     * @param domain 
+     * @param domain
      */
-    editDomain(domain){
+    editDomain(domain) {
         let url = environment.host + 'users/edit-domain';
-        return this._httpPost(url,domain);
+        return this._httpPost(url, domain);
     }
 
     /**
      * 删除一个domain
-     * @param domain 
+     * @param domain
      */
-    deleteDomain(domain){
+    deleteDomain(domain) {
         let url = environment.host + 'users/delete-domain';
-        return this._httpPost(url,domain);
+        return this._httpPost(url, domain);
+    }
+
+    /**
+     * 获取所有商品类型
+     */
+    getAllDistributorTypes() {
+        let url = environment.host + 'distributor/types';
+        return this._httpGet(url).catch(err => this.handleErr(err));
+    }
+
+    /**
+     * 创建一个商品类型
+     * @param type
+     */
+    createDistributorType(type) {
+        let url = environment.host + 'distributor/createType';
+        return this._httpPost(url, type);
+    }
+
+    /**
+     * 修改一个商品类型
+     * @param type
+     */
+    editDistributorType(type) {
+        let url = environment.host + 'distributor/updateType';
+        return this._httpPost(url, type);
+    }
+
+    /**
+     * 删除一个商品类型
+     * @param type
+     */
+    deleteDistributorType(type) {
+        let url = environment.host + 'distributor/deleteType';
+        return this._httpPost(url, type);
     }
 
     /**
      * 拒绝审核申请
-     * @param audit_user 
+     * @param audit_user
      */
-    auditUserReject(audit_user){
+    auditUserReject(audit_user) {
         let url = environment.host + 'users/audit-user-reject';
-        return this._httpPost(url,audit_user);
+        return this._httpPost(url, audit_user);
     }
 
     /**
      * 根据id获取用户信息
-     * @param userId 
+     * @param userId
      */
     getUser(userId) {
         let url = environment.host + 'users/getUser?userId=' + userId;
@@ -107,49 +142,49 @@ export class DCDataService {
 
     /**
      * 修改用户信息
-     * @param user 
+     * @param user
      */
-    editUser(user){
+    editUser(user) {
         let url = environment.host + 'users/user-edit';
-        return this._httpPost(url,user).catch(err => this.handleErr(err));
+        return this._httpPost(url, user).catch(err => this.handleErr(err));
     }
 
     /**
      * 修改专家信息
-     * @param expert 
+     * @param expert
      */
-    editExpert(expert){
+    editExpert(expert) {
         let url = environment.host + 'users/expert-edit';
-        return this._httpPost(url,expert).catch(err => this.handleErr(err));
-        
+        return this._httpPost(url, expert).catch(err => this.handleErr(err));
+
     }
 
     /**
      * 根据userId获取专家信息
-     * @param userId 
+     * @param userId
      */
-    getExpertById(userId){
-        let url = environment.host + 'users/expertByUserId?userId='+userId;
+    getExpertById(userId) {
+        let url = environment.host + 'users/expertByUserId?userId=' + userId;
         return this._httpGet(url).catch(err => this.handleErr(err));
     }
 
     /**
      * 根据userId获取经销商信息
-     * @param userId 
+     * @param userId
      */
-    getDistributorById(userId){
-        let url = environment.host + 'users/distributorByUserId?userId='+userId;
+    getDistributorById(userId) {
+        let url = environment.host + 'users/distributorByUserId?userId=' + userId;
         return this._httpGet(url).catch(err => this.handleErr(err));
     }
 
     /**
      * 修改经销商信息
-     * @param expert 
+     * @param expert
      */
-    editDistributor(distributor){
+    editDistributor(distributor) {
         let url = environment.host + 'users/distributor-edit';
-        return this._httpPost(url,distributor).catch(err => this.handleErr(err));
-        
+        return this._httpPost(url, distributor).catch(err => this.handleErr(err));
+
     }
 
     /**
@@ -162,8 +197,8 @@ export class DCDataService {
 
     /**
      * 登录
-     * @param userName 
-     * @param password 
+     * @param userName
+     * @param password
      */
     login(userName, password) {
         let url = environment.host + 'auth/local';
