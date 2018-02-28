@@ -27,6 +27,10 @@
                     "text": "用户审核",
                     "link": "/verify-user",
                     "translate": "用户审核"
+                },{
+                    "text": "商品审核",
+                    "link": "/verify-goods",
+                    "translate": "商品审核"
                 }]
             },
             {

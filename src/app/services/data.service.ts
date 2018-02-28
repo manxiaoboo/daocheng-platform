@@ -15,7 +15,7 @@ export class DCDataService {
      * @param userId 操作人Id
      */
     register(audit_user, userId) {
-        let url = environment.host + 'users/register?userId=' + userId;
+        const url = environment.host + 'users/register?userId=' + userId;
         return this._httpPost(url, audit_user).catch(err => this.handleErr(err));
     }
 
@@ -23,7 +23,7 @@ export class DCDataService {
      * 获取所有身份
      */
     getRoles() {
-        let url = environment.host + 'users/roles';
+        const url = environment.host + 'users/roles';
         return this._httpGet(url).catch(err => this.handleErr(err));
     }
 
@@ -32,7 +32,7 @@ export class DCDataService {
      * @param roleId
      */
     getUsersByRole(roleId) {
-        let url = environment.host + 'users/all-user?roleId=' + roleId;
+        const url = environment.host + 'users/all-user?roleId=' + roleId;
         return this._httpGet(url).catch(err => this.handleErr(err));
     }
 
@@ -40,7 +40,7 @@ export class DCDataService {
      * 获取所有待审核用户
      */
     getAllAuditUsers() {
-        let url = environment.host + 'users/all-audit-user';
+        const url = environment.host + 'users/all-audit-user';
         return this._httpGet(url).catch(err => this.handleErr(err));
     }
 
@@ -48,15 +48,44 @@ export class DCDataService {
      * 获取所有已审核用户
      */
     getAllAuditUsersDone() {
-        let url = environment.host + 'users/all-audit-user-done';
+        const url = environment.host + 'users/all-audit-user-done';
         return this._httpGet(url).catch(err => this.handleErr(err));
+    }
+
+    /**
+     * 获取所有待审核商品
+     */
+    getAllAuditGoods() {
+        const url = environment.host + 'distributor/auditGoods';
+        return this._httpGet(url).catch(err => this.handleErr(err));
+    }
+
+    /**
+     * 商品通过审核
+     */
+    auditGoodsPass(auditId, goodsId) {
+        const url = environment.host + 'distributor/auditGoodsPass?auditId=' + auditId + '&goodsId=' + goodsId;
+        return this._httpGet(url).catch(err => this.handleErr(err));
+    }
+
+    /**
+     * 拒绝通过审核
+     */
+    auditGoodsReject(auditId, goodsId, reason) {
+        const q = {
+            auditId: auditId,
+            goodsId: goodsId,
+            reason: reason
+        };
+        const url = environment.host + 'distributor/auditGoodsReject';
+        return this._httpPost(url, q).catch(err => this.handleErr(err));
     }
 
     /**
      * 获取所有专业列表
      */
     getAllDomains() {
-        let url = environment.host + 'users/all-domain';
+        const url = environment.host + 'users/all-domain';
         return this._httpGet(url).catch(err => this.handleErr(err));
     }
 
@@ -65,7 +94,7 @@ export class DCDataService {
      * @param domain
      */
     createDomain(domain) {
-        let url = environment.host + 'users/create-domain';
+        const url = environment.host + 'users/create-domain';
         return this._httpPost(url, domain);
     }
 
@@ -74,7 +103,7 @@ export class DCDataService {
      * @param domain
      */
     editDomain(domain) {
-        let url = environment.host + 'users/edit-domain';
+        const url = environment.host + 'users/edit-domain';
         return this._httpPost(url, domain);
     }
 
@@ -83,7 +112,7 @@ export class DCDataService {
      * @param domain
      */
     deleteDomain(domain) {
-        let url = environment.host + 'users/delete-domain';
+        const url = environment.host + 'users/delete-domain';
         return this._httpPost(url, domain);
     }
 
@@ -91,7 +120,7 @@ export class DCDataService {
      * 获取所有商品类型
      */
     getAllDistributorTypes() {
-        let url = environment.host + 'distributor/types';
+        const url = environment.host + 'distributor/types';
         return this._httpGet(url).catch(err => this.handleErr(err));
     }
 
@@ -100,7 +129,7 @@ export class DCDataService {
      * @param type
      */
     createDistributorType(type) {
-        let url = environment.host + 'distributor/createType';
+        const url = environment.host + 'distributor/createType';
         return this._httpPost(url, type);
     }
 
@@ -109,7 +138,7 @@ export class DCDataService {
      * @param type
      */
     editDistributorType(type) {
-        let url = environment.host + 'distributor/updateType';
+        const url = environment.host + 'distributor/updateType';
         return this._httpPost(url, type);
     }
 
@@ -118,7 +147,7 @@ export class DCDataService {
      * @param type
      */
     deleteDistributorType(type) {
-        let url = environment.host + 'distributor/deleteType';
+        const url = environment.host + 'distributor/deleteType';
         return this._httpPost(url, type);
     }
 
@@ -127,7 +156,7 @@ export class DCDataService {
      * @param audit_user
      */
     auditUserReject(audit_user) {
-        let url = environment.host + 'users/audit-user-reject';
+        const url = environment.host + 'users/audit-user-reject';
         return this._httpPost(url, audit_user);
     }
 
@@ -136,7 +165,7 @@ export class DCDataService {
      * @param userId
      */
     getUser(userId) {
-        let url = environment.host + 'users/getUser?userId=' + userId;
+        const url = environment.host + 'users/getUser?userId=' + userId;
         return this._httpGet(url).catch(err => this.handleErr(err));
     }
 
@@ -145,7 +174,7 @@ export class DCDataService {
      * @param user
      */
     editUser(user) {
-        let url = environment.host + 'users/user-edit';
+        const url = environment.host + 'users/user-edit';
         return this._httpPost(url, user).catch(err => this.handleErr(err));
     }
 
@@ -154,7 +183,7 @@ export class DCDataService {
      * @param expert
      */
     editExpert(expert) {
-        let url = environment.host + 'users/expert-edit';
+        const url = environment.host + 'users/expert-edit';
         return this._httpPost(url, expert).catch(err => this.handleErr(err));
 
     }
@@ -164,7 +193,7 @@ export class DCDataService {
      * @param userId
      */
     getExpertById(userId) {
-        let url = environment.host + 'users/expertByUserId?userId=' + userId;
+        const url = environment.host + 'users/expertByUserId?userId=' + userId;
         return this._httpGet(url).catch(err => this.handleErr(err));
     }
 
@@ -173,7 +202,7 @@ export class DCDataService {
      * @param userId
      */
     getDistributorById(userId) {
-        let url = environment.host + 'users/distributorByUserId?userId=' + userId;
+        const url = environment.host + 'users/distributorByUserId?userId=' + userId;
         return this._httpGet(url).catch(err => this.handleErr(err));
     }
 
@@ -182,7 +211,7 @@ export class DCDataService {
      * @param expert
      */
     editDistributor(distributor) {
-        let url = environment.host + 'users/distributor-edit';
+        const url = environment.host + 'users/distributor-edit';
         return this._httpPost(url, distributor).catch(err => this.handleErr(err));
 
     }
@@ -191,7 +220,7 @@ export class DCDataService {
      * 获取当前登陆用户信息
      */
     me() {
-        let url = environment.host + 'users/me?roleId=2cf27ea0-e6c4-11e7-b42e-060400ef5315';
+        const url = environment.host + 'users/me?roleId=2cf27ea0-e6c4-11e7-b42e-060400ef5315';
         return this._httpGet(url);
     }
 
@@ -201,19 +230,18 @@ export class DCDataService {
      * @param password
      */
     login(userName, password) {
-        let url = environment.host + 'auth/local';
+        const url = environment.host + 'auth/local';
         return this._httpPost(url, { userName: userName, password: password }).catch(err => this.handleErr(err));
     }
 
     private _getHeader() {
-        let authToken = localStorage.getItem("authToken");
+        const authToken = localStorage.getItem('authToken');
         if (!authToken) {
             this.router.navigate(['/pro/user/login']);
             return;
         }
-        let headers = new Headers();
-        // headers.append("Content-Type", "application/json");
-        headers.append("Authorization", "Bearer " + authToken);
+        const headers = new Headers();
+        headers.append('Authorization', 'Bearer ' + authToken);
 
         return headers;
     }
@@ -231,7 +259,7 @@ export class DCDataService {
     }
 
     private handleErr(e) {
-        if (e.status == 401) {
+        if (e.status === 401) {
             this.router.navigate(['/pro/user/login']);
         }
     }

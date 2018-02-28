@@ -7,6 +7,7 @@ import { routes } from './routes';
 import { DashboardWorkplaceComponent } from './dashboard/workplace/workplace.component';
 //user
 import { VerifyUserComponent } from './verify/verify-user/verify-user.component';
+import { VerifyGoodsComponent } from './verify/verify-goods/verify-goods.component';
 import { UserFarmerManagerComponent } from './user-manager/farmers/farmers.component';
 import { UserExpertManagerComponent } from './user-manager/experts/experts.component';
 import { UserDomainComponent } from './user-manager/domain/domain.component';
@@ -34,8 +35,9 @@ import { AuthResolveService } from './auth.resolve';
     ],
     declarations: [
         DashboardWorkplaceComponent,
-        //user
+        // user
         VerifyUserComponent,
+        VerifyGoodsComponent,
         UserFarmerManagerComponent,
         UserExpertManagerComponent,
         UserDomainComponent,
@@ -47,15 +49,15 @@ import { AuthResolveService } from './auth.resolve';
         ProUserRegisterComponent,
         ProUserRegisterResultComponent,
 
-        //device
+        // device
         DeviceManagerComponent,
         DeviceCreateComponent,
         DeviceSelectorComponent
     ],
-    providers:[
+    providers: [
         AuthResolveService
     ],
-    entryComponents:[
+    entryComponents: [
         DeviceSelectorComponent
     ],
     exports: [
@@ -63,4 +65,4 @@ import { AuthResolveService } from './auth.resolve';
     ]
 })
 
-export class RoutesModule {}
+export class RoutesModule { }

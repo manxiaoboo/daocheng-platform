@@ -3,6 +3,7 @@ import { LayoutFullScreenComponent } from '../layout/fullscreen/fullscreen.compo
 import { DashboardWorkplaceComponent } from './dashboard/workplace/workplace.component';
 //verify
 import { VerifyUserComponent } from './verify/verify-user/verify-user.component';
+import { VerifyGoodsComponent } from './verify/verify-goods/verify-goods.component';
 //usermanager
 import { UserFarmerManagerComponent } from './user-manager/farmers/farmers.component';
 import { UserExpertManagerComponent } from './user-manager/experts/experts.component';
@@ -32,6 +33,7 @@ export const routes = [
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
             { path: 'dashboard', component: DashboardWorkplaceComponent, data: { translate: '工作台' } },
             { path: 'verify-user', component: VerifyUserComponent, data: { translate: '用户审核' } },
+            { path: 'verify-goods', component: VerifyGoodsComponent, data: { translate: '商品审核' } },
             { path: 'user-manager-farmer', component: UserFarmerManagerComponent, data: { translate: '农户管理' } },
             { path: 'user-manager-expert', component: UserExpertManagerComponent, data: { translate: '专家管理' } },
             { path: 'user-manager-domain', component: UserDomainComponent, data: { translate: '领域维护' } },
