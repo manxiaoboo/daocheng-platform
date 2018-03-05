@@ -5,6 +5,7 @@ export class Device{
     password:string;
     did:string;
     passcode:string;
+    mac: string;
     productName:string;
     productType:string;
     note:string;

@@ -69,6 +69,15 @@ export class DCDataService {
     }
 
     /**
+     * 商品通过审核
+     */
+    auditGoodsEditPass(auditId, goods) {
+        const url = environment.host + 'distributor/auditGoodsEditPass';
+        return this._httpPost(url, { auditId: auditId, goods: goods }).catch(err => this.handleErr(err));
+    }
+
+
+    /**
      * 拒绝通过审核
      */
     auditGoodsReject(auditId, goodsId, reason) {

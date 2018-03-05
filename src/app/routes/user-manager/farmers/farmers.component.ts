@@ -201,8 +201,8 @@ export class UserFarmerManagerComponent implements OnInit, OnDestroy {
         this.loading = false;
     }
 
-    removeBindDevice(farmer){
-        if(!farmer.deviceId){
+    removeBindDevice(farmer) {
+        if (!farmer.deviceId) {
             this.msg.error("此用户还没有绑定设备");
             return;
         }
@@ -211,15 +211,15 @@ export class UserFarmerManagerComponent implements OnInit, OnDestroy {
             content: "你确认要解除此用户绑定的设备吗？",
             onOk: async () => {
                 this.loading = true;
-                let dr:any = await this.dds.getDeviceById(farmer.deviceId);
+                let dr: any = await this.dds.getDeviceById(farmer.deviceId);
                 let device = dr.json();
-                if(!device){
+                if (!device) {
                     this.msg.error("系统没有找到此设备信息");
                     return;
                 }
-                let utr:any = await this.dds.loginToJZY(device);
+                let utr: any = await this.dds.loginToJZY(device);
                 let usertoken = utr.json();
-                await this.dds.unBindingToJZY(device,usertoken.token);
+                await this.dds.unBindingToJZY(device, usertoken.token);
                 device.username = null;
                 device.password = null;
                 device.isUse = false;
@@ -238,23 +238,23 @@ export class UserFarmerManagerComponent implements OnInit, OnDestroy {
     }
 
     async bindDevice(farmer) {
-        if(farmer.deviceId){
+        if (farmer.deviceId) {
             this.msg.info("此用户已经绑定了设备，不可重复绑定");
             return;
         }
-        let devices:any = await this.dds.getDevicesByIsUse(false);
+        let devices: any = await this.dds.getDevicesByIsUse(false);
         this.options = {
             wrapClassName: 'modal-lg',
             content: DeviceSelectorComponent,
             footer: false,
             componentParams: {
                 devices: devices.json(),
-                farmer:farmer
+                farmer: farmer
             }
         };
         this.modal.open(this.options).subscribe(result => {
             console.info(result);
-            if(result == 'success'){
+            if (result == 'success') {
                 this.getFarmers();
             }
             // this.msg.info(`subscribe status: ${JSON.stringify(result)}`);

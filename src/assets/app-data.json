@@ -66,7 +66,17 @@
                     "link": "/device-create",
                     "translate": "添加设备"
                 }]
-
+            },
+            {
+                "text": "商品管理",
+                "translate": "商品管理",
+                "icon": "icon-basket",
+                "children": [{
+                    "text": "商品列表",
+                    "link": "/goods-manager",
+                    "translate": "商品列表"
+                }
+               ]
             },
             {
                 "text": "基础数据维护",

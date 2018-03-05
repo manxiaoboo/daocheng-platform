@@ -180,10 +180,28 @@
         </div>
         <div nz-form-item>
             <div nz-form-label>
-                <label for="passcode">passcode</label>
+                <label for="mac">mac</label>
             </div>
             <div nz-form-control>
-                <nz-input [(ngModel)]="currentDevice.passcode" name="passcode" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="passcode"
+                <nz-input [(ngModel)]="currentDevice.mac" name="mac" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="mac"
+                    disabled="disabled"></nz-input>
+            </div>
+        </div>
+        <div nz-form-item>
+            <div nz-form-label>
+                <label for="productKey">product_key</label>
+            </div>
+            <div nz-form-control>
+                <nz-input [(ngModel)]="currentDevice.productKey" name="productKey" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="productKey"
+                    disabled="disabled"></nz-input>
+            </div>
+        </div>
+        <div nz-form-item>
+            <div nz-form-label>
+                <label for="productSecret">product_secret</label>
+            </div>
+            <div nz-form-control>
+                <nz-input [(ngModel)]="currentDevice.productSecret" name="productSecret" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="productSecret"
                     disabled="disabled"></nz-input>
             </div>
         </div>
@@ -263,11 +281,26 @@
     </div>
     <div nz-form-item>
         <div nz-form-label>
-            <label for="passcode">passcode</label>
+            <label for="mac">mac</label>
         </div>
         <div nz-form-control>
-            <nz-input [(ngModel)]="editDevice.passcode" name="passcode" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="passcode"
-            ></nz-input>
+            <nz-input [(ngModel)]="editDevice.mac" name="mac" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="mac"></nz-input>
+        </div>
+    </div>
+    <div nz-form-item>
+        <div nz-form-label>
+            <label for="productKey">product_key</label>
+        </div>
+        <div nz-form-control>
+            <nz-input [(ngModel)]="editDevice.productKey" name="productKey" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="productKey"></nz-input>
+        </div>
+    </div>
+    <div nz-form-item>
+        <div nz-form-label>
+            <label for="productSecret">product_secret</label>
+        </div>
+        <div nz-form-control>
+            <nz-input [(ngModel)]="editDevice.productSecret" name="productSecret" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="productSecret"></nz-input>
         </div>
     </div>
     <div nz-form-item>

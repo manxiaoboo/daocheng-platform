@@ -20,6 +20,9 @@ import { ProUserRegisterResultComponent } from './pro/user/register-result/regis
 import { DeviceManagerComponent } from './device-manager/device-manager.component';
 import { DeviceCreateComponent } from './device-manager/device-create/device-create.component';
 
+//goods
+import { GoodsManagerComponent } from './goods-manager/goods-manager.component';
+
 //resolve
 import { AuthResolveService } from './auth.resolve';
 
@@ -41,6 +44,7 @@ export const routes = [
             { path: 'user-manager-distributor', component: UserDistributorsManagerComponent, data: { translate: '经销商管理' } },
             { path: 'device-manager', component: DeviceManagerComponent, data: { translate: '设备列表' } },
             { path: 'device-create', component: DeviceCreateComponent, data: { translate: '创建设备' } },
+            { path: 'goods-manager', component: GoodsManagerComponent, data: {translate: '商品管理'} },
             { path: 'pro', loadChildren: './pro/pro.module#ProModule' }
         ]
     },

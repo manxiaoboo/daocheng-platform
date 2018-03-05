@@ -24,6 +24,9 @@ import { DeviceManagerComponent } from './device-manager/device-manager.componen
 import { DeviceCreateComponent } from './device-manager/device-create/device-create.component';
 import { DeviceSelectorComponent } from './device-manager/device-selector/device-selector';
 
+//goods
+import { GoodsManagerComponent } from './goods-manager/goods-manager.component';
+
 import { AuthResolveService } from './auth.resolve';
 
 
@@ -52,7 +55,10 @@ import { AuthResolveService } from './auth.resolve';
         // device
         DeviceManagerComponent,
         DeviceCreateComponent,
-        DeviceSelectorComponent
+        DeviceSelectorComponent,
+
+        // goods
+        GoodsManagerComponent
     ],
     providers: [
         AuthResolveService

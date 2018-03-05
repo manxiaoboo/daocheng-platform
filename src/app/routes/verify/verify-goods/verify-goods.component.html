@@ -73,12 +73,55 @@
                             <desc-list-item term="单位">{{currentAudit.goods.unit}}</desc-list-item>
                             <desc-list-item term="最低报价">￥{{currentAudit.goods.priceStart}}</desc-list-item>
                             <desc-list-item term="最高报价">￥{{currentAudit.goods.priceEnd}}</desc-list-item>
-                            <desc-list-item term="提审日期">￥{{currentAudit.createdAt | _date}}</desc-list-item>
-                            <desc-list-item term="商品简介">￥{{currentAudit.goods.intro}}</desc-list-item>
+                            <desc-list-item term="提审日期">{{currentAudit.createdAt | _date}}</desc-list-item>
+                            <desc-list-item term="商品简介">{{currentAudit.goods.intro}}</desc-list-item>
                         </desc-list>
                         <nz-divider class="mb-lg"></nz-divider>
                         <desc-list size="large" title="商品规格" class="mb-lg" col="1">
                                 <desc-list-item term="规格信息">{{currentAudit.goods.specDesc}}</desc-list-item>
+                        </desc-list>
+                        <nz-divider class="mb-lg"></nz-divider>
+                        <desc-list size="large" title="经销商信息" class="mb-lg" col="2">
+                          <desc-list-item term="经销商名字">{{currentAudit.goods.distributor.name}}</desc-list-item>
+                          <desc-list-item term="地址">{{currentAudit.goods.distributor.address}}</desc-list-item>
+                          <desc-list-item term="联系人">{{currentAudit.goods.distributor.contact}}</desc-list-item>
+                          <desc-list-item term="联系电话">{{currentAudit.goods.distributor.contactPhone}}</desc-list-item>
+                          <desc-list-item term="简介">{{currentAudit.goods.distributor.intro}}</desc-list-item>
+                        </desc-list>
+                        <nz-divider class="mb-lg"></nz-divider>
+                        <p *ngFor="let p of currentAudit.goods.photos_arr">
+                            <img src="http://{{p}}"/>
+                        </p>
+                        <nz-divider class="mb-lg"></nz-divider>
+                        <nz-input [nzType]="'textarea'" nzPlaceHolder="拒绝原因（或修改意见）" name="reason" [nzId]="'reason'" [(ngModel)]="reason"></nz-input>
+                        <br>
+                        <button nz-button [nzType]="'danger'" class="mr-sm" [nzSize]="'large'" (click)="reject()">
+                                <i class="fa fa-close"></i>
+                                拒绝（审核不通过）
+                        </button>
+                    </ng-template>
+                </nz-card>
+    </ng-template>
+</nz-modal>
+
+<nz-modal *ngIf="currentAudit" [nzVisible]="modalAuditUpdate" [nzStyle]="{'margin-top':'3%'}" [nzWrapClassName]="'modal-lg'" [nzCancelText]="'取消'"
+    [nzOkText]="'通过审核'" [nzTitle]="'审核商品'" [nzConfirmLoading]="loading" [nzContent]="modalContent" (nzOnCancel)="modalAuditUpdate=false"
+    (nzOnOk)="doEdit()">
+    <ng-template #modalContent>
+            <nz-card [nzNoHovering]="true" [nzBordered]="false">
+                    <ng-template #body>
+                        <desc-list size="large" title="商品信息" class="mb-lg" col="1">
+                            <desc-list-item term="商品名称">{{currentAudit.goods.name}}<span class="text-error" *ngIf="currentAudit.goods.name != currentAudit.data.name"> => {{currentAudit.data.name}}</span></desc-list-item>
+                            <desc-list-item term="类型">{{currentAudit.goods.type_ele.name}}<span class="text-error" *ngIf="currentAudit.goods.type != currentAudit.data.type"> => {{currentAudit.data.typeName}}</span></desc-list-item>
+                            <desc-list-item term="单位">{{currentAudit.goods.unit}}<span class="text-error" *ngIf="currentAudit.goods.unit != currentAudit.data.unit"> => {{currentAudit.data.unit}}</span></desc-list-item>
+                            <desc-list-item term="最低报价">￥{{currentAudit.goods.priceStart}}<span class="text-error" *ngIf="currentAudit.goods.priceStart != currentAudit.data.priceStart"> => {{currentAudit.data.priceStart}}</span></desc-list-item>
+                            <desc-list-item term="最高报价">￥{{currentAudit.goods.priceEnd}}<span class="text-error" *ngIf="currentAudit.goods.priceEnd != currentAudit.data.priceEnd"> => {{currentAudit.data.priceEnd}}</span></desc-list-item>
+                            <desc-list-item term="提审日期">{{currentAudit.createdAt | _date}}</desc-list-item>
+                            <desc-list-item term="商品简介">{{currentAudit.goods.intro}}<span class="text-error" *ngIf="currentAudit.goods.intro != currentAudit.data.intro"> => {{currentAudit.data.intro}}</span></desc-list-item>
+                        </desc-list>
+                        <nz-divider class="mb-lg"></nz-divider>
+                        <desc-list size="large" title="商品规格" class="mb-lg" col="1">
+                                <desc-list-item term="规格信息">{{currentAudit.goods.specDesc}}<span class="text-error" *ngIf="currentAudit.goods.specDesc != currentAudit.data.specDesc"> => {{currentAudit.data.specDesc}}</span></desc-list-item>
                         </desc-list>
                         <nz-divider class="mb-lg"></nz-divider>
                         <desc-list size="large" title="经销商信息" class="mb-lg" col="2">

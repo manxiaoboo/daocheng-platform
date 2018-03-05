@@ -20,7 +20,7 @@ export class DeviceCreateComponent implements OnInit {
     loading = false;
     device: Device = new Device();
 
-    constructor(public msg: NzMessageService, private modal: NzModalService,private dds:DeviceDataService, private dataservice: DCDataService, private router: Router, private fb: FormBuilder) {
+    constructor(public msg: NzMessageService, private modal: NzModalService, private dds: DeviceDataService, private dataservice: DCDataService, private router: Router, private fb: FormBuilder) {
 
     }
 
@@ -31,21 +31,21 @@ export class DeviceCreateComponent implements OnInit {
         console.log('log', this.form.value);
         if (this.form.valid) {
             this.device = this.form.value;
-            let option = {
-                title: "确认",
-                content: "你确认审核数据并创建此设备吗？",
+            const option = {
+                title: '确认',
+                content: '你确认审核数据并创建此设备吗？',
                 onOk: () => {
                     this.loading = true;
-                    this.dds.createDevice(this.device).then(()=>{
+                    this.dds.createDevice(this.device).then(() => {
                         this.msg.success('创建设备成功!');
                         this.loading = false;
                         this.router.navigate(['/device-manager']);
                     });
                 },
                 onCancel: () => {
-                    
+
                 }
-            }
+            };
             this.modal.confirm(option);
         } else {
             this.msg.error('失败!');
@@ -60,9 +60,11 @@ export class DeviceCreateComponent implements OnInit {
         this.form = this.fb.group({
             productName: [null, [Validators.required]],
             productType: [null, [Validators.required]],
+            productKey: [null, [Validators.required]],
+            productSecret: [null, [Validators.required]],
             appid: [null, [Validators.required]],
             did: [null, [Validators.required]],
-            passcode: [null, [Validators.required]],
+            mac: [null, [Validators.required]],
             note: [null]
         }, );
     }
@@ -78,8 +80,10 @@ export class DeviceCreateComponent implements OnInit {
     //#region get form fields
     get productName() { return this.form.controls.productName; }
     get productType() { return this.form.controls.productType; }
+    get productKey() { return this.form.controls.productKey; }
+    get productSecret() { return this.form.controls.productSecret; }
     get appid() { return this.form.controls.appid; }
     get did() { return this.form.controls.did; }
-    get passcode() { return this.form.controls.passcode; }
+    get mac() { return this.form.controls.mac; }
     get note() { return this.form.controls.note; }
 }

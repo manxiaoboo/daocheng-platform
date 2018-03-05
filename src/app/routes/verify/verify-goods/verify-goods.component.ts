@@ -21,9 +21,11 @@ export class VerifyGoodsComponent implements OnInit, OnDestroy {
     sortMap: any = {};
     loading = false;
     modalAudit = false;
+    modalAuditUpdate = false;
     audit_goods = [];
     currentAudit;
     reason;
+    types = [];
     constructor(public msg: NzMessageService, private modal: NzModalService,
         private dataservice: DCDataService) { }
 
@@ -38,37 +40,36 @@ export class VerifyGoodsComponent implements OnInit, OnDestroy {
     getAuditGoods() {
         this.loading = true;
         this.dataservice.getAllAuditGoods().then((ag: any) => {
-            this.audit_goods = ag.json();
-            this.audit_goods.forEach(agf => {
-                if (agf.goods.photos) {
-                    agf.goods.photos_arr = agf.goods.photos.split(',');
-                }
+            this.dataservice.getAllDistributorTypes().then((dt: any) => {
+                this.types = dt.json();
+                this.audit_goods = ag.json();
+                this.audit_goods.forEach(agf => {
+                    if (agf.goods.photos) {
+                        agf.goods.photos_arr = agf.goods.photos.split(',');
+                    }
+                });
+                this.loading = false;
+                console.info(this.audit_goods);
+                console.info(this.types)
+
             });
-            this.loading = false;
-            console.info(this.audit_goods);
         });
     }
 
     async showAuditModal(a) {
-        // const option = {
-        //     title: '危险',
-        //     content: '删除一个商品类型是一个危险操作，请确保该类型下没有分配商品，才可进行删除，确认删除吗？',
-        //     onOk: () => {
-        //         this.loading = true;
-        //         this.dataservice.deleteDistributorType(d).then(() => {
-        //             this.loading = false;
-        //             this.msg.success('删除商品类型成功');
-        //         });
-        //     },
-        //     onCancel: () => {
-        //         this.loading = false;
-        //     }
-        // };
-
-        // this.modal.confirm(option);
         this.reason = null;
         this.currentAudit = a;
-        this.modalAudit = true;
+        if (a.type === 'create') {
+            this.modalAudit = true;
+        } else {
+            if (this.currentAudit.data) this.currentAudit.data = JSON.parse(this.currentAudit.data);
+            this.types.forEach(t => {
+                if (t.id === this.currentAudit.data.type) {
+                    this.currentAudit.data.typeName = t.name;
+                }
+            });
+            this.modalAuditUpdate = true;
+        }
     }
 
     doAudit() {
@@ -82,6 +83,28 @@ export class VerifyGoodsComponent implements OnInit, OnDestroy {
                     this.msg.success('操作成功');
                     this.getAuditGoods();
                     this.modalAudit = false;
+                    this.reason = null;
+                });
+            },
+            onCancel: () => {
+                this.loading = false;
+            }
+        };
+        this.modal.confirm(option);
+    }
+
+    doEdit() {
+        const option = {
+            title: '审核',
+            content: '您确认将此商品通过审核吗？',
+            onOk: () => {
+                this.loading = true;
+                this.dataservice.auditGoodsEditPass(this.currentAudit.id, this.currentAudit.data).then(() => {
+                    this.loading = false;
+                    this.msg.success('操作成功');
+                    this.getAuditGoods();
+                    this.modalAudit = false;
+                    this.modalAuditUpdate = false;
                     this.reason = null;
                 });
             },
@@ -107,6 +130,7 @@ export class VerifyGoodsComponent implements OnInit, OnDestroy {
                     this.msg.success('操作成功');
                     this.getAuditGoods();
                     this.modalAudit = false;
+                    this.modalAuditUpdate = false;
                     this.reason = null;
                 });
             },

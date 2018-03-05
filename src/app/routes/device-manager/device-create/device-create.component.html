@@ -4,7 +4,7 @@
             <small>同步机智云信息至稻成</small>
         </h1>
         <div class="text-right">
-            
+
         </div>
     </div>
     <div nz-row [nzGutter]="16">
@@ -69,11 +69,29 @@
                             </div>
                         <div nz-form-item nz-row>
                             <div nz-form-label nz-col [nzSm]="4">
-                                <label for="passcode" nz-form-item-required>passcode</label>
+                                <label for="mac" nz-form-item-required>mac</label>
                             </div>
-                            <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="passcode">
-                                <nz-input formControlName="passcode" [nzId]="'passcode'"></nz-input>
-                                <div nz-form-explain *ngIf="(passcode.dirty || passcode.touched) && passcode.errors?.required">请填写passcode</div>
+                            <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="mac">
+                                <nz-input formControlName="mac" [nzId]="'mac'"></nz-input>
+                                <div nz-form-explain *ngIf="(mac.dirty || mac.touched) && mac.errors?.required">mac</div>
+                            </div>
+                        </div>
+                        <div nz-form-item nz-row>
+                            <div nz-form-label nz-col [nzSm]="4">
+                                <label for="productKey" nz-form-item-required>product_key</label>
+                            </div>
+                            <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="productKey">
+                                <nz-input formControlName="productKey" [nzId]="'productKey'"></nz-input>
+                                <div nz-form-explain *ngIf="(productKey.dirty || productKey.touched) && productKey.errors?.required">product_key</div>
+                            </div>
+                        </div>
+                        <div nz-form-item nz-row>
+                            <div nz-form-label nz-col [nzSm]="4">
+                                <label for="productSecret" nz-form-item-required>product_secret</label>
+                            </div>
+                            <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="productSecret">
+                                <nz-input formControlName="productSecret" [nzId]="'productSecret'"></nz-input>
+                                <div nz-form-explain *ngIf="(productSecret.dirty || productSecret.touched) && productSecret.errors?.required">product_secret</div>
                             </div>
                         </div>
                         <div nz-form-item nz-row>
@@ -98,4 +116,3 @@
             </nz-card>
         </div>
     </div>
-    
