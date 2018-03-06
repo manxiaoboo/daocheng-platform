@@ -18,6 +18,14 @@ export class GoodsDataService {
     }
 
     /**
+     * 获取所有通过审核并且上架并且广告的商品
+     */
+    getAllAdGoods() {
+        const url = environment.host + 'distributor/allAdGoods';
+        return this._httpGet(url);
+    }
+
+    /**
      * 修改商品信息
      * @param goods
      */

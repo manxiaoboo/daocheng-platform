@@ -22,6 +22,7 @@ import { DeviceCreateComponent } from './device-manager/device-create/device-cre
 
 //goods
 import { GoodsManagerComponent } from './goods-manager/goods-manager.component';
+import { GoodsAdComponent } from './goods-manager/goods-ad/goods-ad.component';
 
 //resolve
 import { AuthResolveService } from './auth.resolve';
@@ -45,6 +46,7 @@ export const routes = [
             { path: 'device-manager', component: DeviceManagerComponent, data: { translate: '设备列表' } },
             { path: 'device-create', component: DeviceCreateComponent, data: { translate: '创建设备' } },
             { path: 'goods-manager', component: GoodsManagerComponent, data: {translate: '商品管理'} },
+            { path: 'goods-ad', component:GoodsAdComponent, data: {translate:'广告管理'} },
             { path: 'pro', loadChildren: './pro/pro.module#ProModule' }
         ]
     },

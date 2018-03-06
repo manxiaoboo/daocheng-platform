@@ -75,6 +75,11 @@
                     "text": "商品列表",
                     "link": "/goods-manager",
                     "translate": "商品列表"
+                },
+                {
+                    "text": "广告管理",
+                    "link": "/goods-ad",
+                    "translate": "广告管理"
                 }
                ]
             },
