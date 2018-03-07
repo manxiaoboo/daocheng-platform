@@ -18,6 +18,7 @@ export class GoodsManagerComponent implements OnInit {
     };
 
     goods = [];
+    old_goods = [];
     currentGoods;
     loading = false;
     modalGoods = false;
@@ -34,10 +35,26 @@ export class GoodsManagerComponent implements OnInit {
         this.goods = _.orderBy(this.goods, [field], [value === 'ascend' ? 'asc' : 'desc']);
     }
 
+    onSearch() {
+        this.loading = true;
+        this.goods = this.old_goods;
+        if (!this.q.term) {
+            this.loading = false;
+            return;
+        }
+        this.goods = this.goods.filter(vf => {
+            return vf.name.indexOf(this.q.term) !== -1 ||
+                vf.distributor.name.indexOf(this.q.term) !== -1;
+        });
+
+        this.loading = false;
+    }
+
     async refreshData() {
         this.loading = true;
         const gr: any = await this.gds.getAllAuditedGoods();
         this.goods = gr.json();
+        this.old_goods = this.goods;
         this.loading = false;
         console.info(this.goods);
     }

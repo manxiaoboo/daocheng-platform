@@ -24,6 +24,7 @@ export class VerifyGoodsComponent implements OnInit, OnDestroy {
     modalAuditUpdate = false;
     audit_goods = [];
     currentAudit;
+    currentAuditUpdate;
     reason;
     types = [];
     constructor(public msg: NzMessageService, private modal: NzModalService,
@@ -58,16 +59,18 @@ export class VerifyGoodsComponent implements OnInit, OnDestroy {
 
     async showAuditModal(a) {
         this.reason = null;
-        this.currentAudit = a;
         if (a.type === 'create') {
+            this.currentAudit = a;
             this.modalAudit = true;
         } else {
-            if (this.currentAudit.data) this.currentAudit.data = JSON.parse(this.currentAudit.data);
+            this.currentAuditUpdate = a;
+            if (this.currentAuditUpdate.data) this.currentAuditUpdate.data = JSON.parse(this.currentAuditUpdate.data);
             this.types.forEach(t => {
-                if (t.id === this.currentAudit.data.type) {
-                    this.currentAudit.data.typeName = t.name;
+                if (t.id === this.currentAuditUpdate.data.type) {
+                    this.currentAuditUpdate.data.typeName = t.name;
                 }
             });
+
             this.modalAuditUpdate = true;
         }
     }
@@ -99,7 +102,7 @@ export class VerifyGoodsComponent implements OnInit, OnDestroy {
             content: '您确认将此商品通过审核吗？',
             onOk: () => {
                 this.loading = true;
-                this.dataservice.auditGoodsEditPass(this.currentAudit.id, this.currentAudit.data).then(() => {
+                this.dataservice.auditGoodsEditPass(this.currentAuditUpdate.id, this.currentAuditUpdate.data).then(() => {
                     this.loading = false;
                     this.msg.success('操作成功');
                     this.getAuditGoods();
@@ -115,7 +118,7 @@ export class VerifyGoodsComponent implements OnInit, OnDestroy {
         this.modal.confirm(option);
     }
 
-    reject() {
+    reject(a) {
         if (!this.reason) {
             alert('请填写拒绝原因与修改建议');
             return;
@@ -125,7 +128,7 @@ export class VerifyGoodsComponent implements OnInit, OnDestroy {
             content: '您确认拒绝此商品审核吗？',
             onOk: () => {
                 this.loading = true;
-                this.dataservice.auditGoodsReject(this.currentAudit.id, this.currentAudit.distributorGoodsId, this.reason).then(() => {
+                this.dataservice.auditGoodsReject(a.id, a.distributorGoodsId, this.reason).then(() => {
                     this.loading = false;
                     this.msg.success('操作成功');
                     this.getAuditGoods();
