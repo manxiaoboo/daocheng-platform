@@ -10,6 +10,14 @@ export class DCDataService {
     constructor(private http: Http, private router: Router) { }
 
     /**
+     * 获取dashboard数据
+     */
+    dashboard() {
+        const url = environment.host + 'users/dashboard';
+        return this._httpGet(url).catch(err => this.handleErr(err));
+    }
+
+    /**
      * 正式注册用户
      * @param audit_user
      * @param userId 操作人Id
