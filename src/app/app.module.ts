@@ -26,6 +26,7 @@ import { DCDataService } from './services/data.service';
 import { DCAuthService } from './services/auth.service';
 import { DeviceDataService } from './services/device.data.service';
 import { GoodsDataService } from './services/goods.data.service';
+import { OrderDataService } from './services/order.data.service';
 
 import { registerLocaleData } from '@angular/common';
 import localeZhHans from '@angular/common/locales/zh-Hans';
@@ -74,6 +75,7 @@ export function StartupServiceFactory(startupService: StartupService): Function 
         DCAuthService,
         DeviceDataService,
         GoodsDataService,
+        OrderDataService,
         StartupService,
         {
             provide: APP_INITIALIZER,

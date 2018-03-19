@@ -84,6 +84,17 @@
                ]
             },
             {
+                "text": "订单",
+                "translate": "订单管理",
+                "icon": "icon-note",
+                "children": [{
+                    "text": "订单列表",
+                    "link": "/order-manager",
+                    "translate": "订单列表"
+                }
+               ]
+            },
+            {
                 "text": "基础数据维护",
                 "translate": "基础数据维护",
                 "icon": "icon-compass",

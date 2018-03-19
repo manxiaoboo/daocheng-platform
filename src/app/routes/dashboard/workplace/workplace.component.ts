@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd';
 import { getTimeDistance, yuan, fixedZero } from '@delon/abc';
 import { getNotice, getActivities } from '../../../../../_mock/api.service';
@@ -24,76 +25,37 @@ export class DashboardWorkplaceComponent implements OnInit, OnDestroy {
   links = [
     {
       title: '用户审核',
-      href: '',
+      href: '/verify-user',
     },
     {
       title: '商品审核',
-      href: '',
+      href: '/verify-goods',
     },
     {
       title: '农户管理',
-      href: '',
+      href: '/user-manager-farmer',
     },
     {
       title: '专家管理',
-      href: '',
+      href: '/user-manager-expert',
     },
     {
       title: '经销商管理',
-      href: '',
+      href: '/user-manager-distributor',
     },
     {
       title: '商品列表',
-      href: '',
+      href: '/goods-manager',
     },
   ];
-  members = [
-    {
-      id: 'members-1',
-      title: '科学搬砖组',
-      logo: 'https://gw.alipayobjects.com/zos/rmsportal/WdGqmHpayyMjiEhcKoVE.png',
-      link: '',
-    },
-    {
-      id: 'members-2',
-      title: '程序员日常',
-      logo: 'https://gw.alipayobjects.com/zos/rmsportal/zOsKZmFRdUtvpqCImOVY.png',
-      link: '',
-    },
-    {
-      id: 'members-3',
-      title: '设计天团',
-      logo: 'https://gw.alipayobjects.com/zos/rmsportal/dURIMkkrRFpPgTuzkwnB.png',
-      link: '',
-    },
-    {
-      id: 'members-4',
-      title: '中二少女团',
-      logo: 'https://gw.alipayobjects.com/zos/rmsportal/sfjbOqnsXXJgNCjCzDBL.png',
-      link: '',
-    },
-    {
-      id: 'members-5',
-      title: '骗你学计算机',
-      logo: 'https://gw.alipayobjects.com/zos/rmsportal/siCrBXXhmvTQGWPNLBow.png',
-      link: '',
-    },
-  ];
+
   // endregion
 
-  constructor(public msg: NzMessageService, private auth: DCAuthService, private dataservice: DCDataService) {
+  constructor(public msg: NzMessageService, private auth: DCAuthService, private dataservice: DCDataService, private router: Router) {
     this.user = this.auth.user;
     this.dataservice.dashboard().then((data: any) => {
       this.source = data.json();
-      console.info(this.source);
-      this.source.auditGoods.forEach(g => {
-        if (g.goods.photos) {
-          g.goods.photos_arr = g.goods.photos.split(',')
-        } else {
-          g.goods.photos_arr = [];
-        }
-      });
-    })
+    });
   }
 
   ngOnInit() {
@@ -112,5 +74,21 @@ export class DashboardWorkplaceComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+  }
+
+  goOtherPage(url) {
+    this.router.navigate([url]);
+  }
+
+  goAuditUser() {
+    this.router.navigate(['/verify-user']);
+  }
+
+  goAuditGoods() {
+    this.router.navigate(['/verify-goods']);
+  }
+
+  goDistributor() {
+    this.router.navigate(['/user-manager-distributor']);
   }
 }

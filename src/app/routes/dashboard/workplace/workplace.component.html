@@ -37,10 +37,17 @@
     </ng-template>
 </pro-header>
 <div nz-row [nzGutter]="24" *ngIf="source">
-    <div nz-col nzXs="24" nzSm="24" nzMd="16">
+    <div nz-col nzXs="24" nzSm="24" nzMd="24">
+        <nz-card nzTitle="快速开始 / 便捷导航" [nzBordered]="false" nzNoPadding class="mb-lg">
+            <div class="links">
+                <a *ngFor="let item of links" (click)="goOtherPage(item.href)">{{item.title}}</a>
+            </div>
+        </nz-card>
+    </div>
+    <div nz-col nzXs="24" nzSm="24" nzMd="24">
         <nz-card nzTitle="合作供应商" [nzBordered]="false" [nzLoading]="loading" nzNoPadding class="mb-lg project-list">
             <ng-template #extra>
-                <a (click)="msg.success('to')">更多</a>
+                <a (click)="goDistributor()">更多</a>
             </ng-template>
             <div *ngFor="let item of source.distributors" nz-card-grid class="project-grid">
                 <nz-card nzNoPadding [nzBordered]="false" class="mb0">
@@ -48,12 +55,12 @@
                         <ng-template #noticeTitle>
                             <div class="card-title">
                                 <nz-avatar [nzSrc]="'http://'+item.head" [nzSize]="'small'"></nz-avatar>
-                                <a (click)="msg.info('to' + item.href)">{{item.name?item.name:'尚未设置名称'}}</a>
+                                <a (click)="goDistributor()">{{item.name?item.name:'尚未设置名称'}}</a>
                             </div>
                         </ng-template>
                     </nz-card-meta>
                     <div class="project-item">
-                        <a (click)="msg.info('show user: ' + item.member)">{{item.name}}</a>
+                        <a (click)="goDistributor()">{{item.name}}</a>
                         <span *ngIf="item.createdAt" class="datetime" title="{{item.createdAt}}">
                             {{item.createdAt | _date: 'fn' }}
                         </span>
@@ -63,17 +70,17 @@
         </nz-card>
         <nz-card nzTitle="审核动态" [nzBordered]="false" [nzLoading]="loading" nzNoPadding class="mb-lg active-card">
             <ng-template #extra>
-                <a (click)="msg.success('to')">更多</a>
+                <a (click)="goAuditUser()">更多</a>
             </ng-template>
             <nz-list nzSize="large">
                 <nz-list-item *ngFor="let item of source.auditUsers" class="activities">
                     <nz-list-item-meta [nzAvatar]="item.picture" [nzTitle]="activeTitle" [nzDescription]="activeDescription">
                         <ng-template #activeTitle>
-                            <a (click)="msg.success(item.nickName)" class="username">{{item.nickName}}</a>
+                            <a (click)="goAuditUser()" class="username">{{item.nickName}}</a>
                             &nbsp;
                             <span class="event">
                                 申请内容：
-                                <a>创建账户</a>
+                                <a (click)="goAuditUser()">创建账户</a>
                             </span>
                         </ng-template>
                         <ng-template #activeDescription>
@@ -82,46 +89,24 @@
                     </nz-list-item-meta>
                 </nz-list-item>
                 <nz-list-item *ngFor="let item of source.auditGoods" class="activities">
-                        <nz-list-item-meta [nzAvatar]="item.goods.photos_arr.length>0?item.goods.photos_arr:'https://gw.alipayobjects.com/zos/rmsportal/lctvVCLfRpYCkYxAsiVQ.png'" [nzTitle]="activeTitle" [nzDescription]="activeDescription">
-                            <ng-template #activeTitle>
-                                <a (click)="msg.success(item.nickName)" class="username">{{item.name}}</a>
-                                &nbsp;
-                                <span class="event">
-                                    由 <a>{{item.goods.distributor.name}}</a> 发起了一条商品审核申请，申请内容：
-                                    <a *ngIf="item.type == 'create'">创建商品</a>
-                                    <a *ngIf="item.type == 'update'">修改商品</a>
-                                </span>
-                            </ng-template>
-                            <ng-template #activeDescription>
-                                <span class="datetime" title="{{item.createdAt}}">{{item.createdAt | _date: 'fn'}}</span>
-                            </ng-template>
-                        </nz-list-item-meta>
-                    </nz-list-item>
+                    <nz-list-item-meta [nzAvatar]="item.goods.distributor.head?'http://'+item.goods.distributor.head:'https://gw.alipayobjects.com/zos/rmsportal/lctvVCLfRpYCkYxAsiVQ.png'"
+                        [nzTitle]="activeTitle" [nzDescription]="activeDescription">
+                        <ng-template #activeTitle>
+                            <a (click)="goAuditGoods()" class="username">{{item.name}}</a>
+                            &nbsp;
+                            <span class="event">
+                                由
+                                <a (click)="goAuditGoods()">{{item.goods.distributor.name}}</a> 发起了一条商品审核申请，申请内容：
+                                <a *ngIf="item.type == 'create'" (click)="goAuditGoods()">创建商品</a>
+                                <a *ngIf="item.type == 'update'" (click)="goAuditGoods()">修改商品</a>
+                            </span>
+                        </ng-template>
+                        <ng-template #activeDescription>
+                            <span class="datetime" title="{{item.createdAt}}">{{item.createdAt | _date: 'fn'}}</span>
+                        </ng-template>
+                    </nz-list-item-meta>
+                </nz-list-item>
             </nz-list>
-        </nz-card>
-    </div>
-    <div nz-col nzXs="24" nzSm="24" nzMd="8">
-        <nz-card nzTitle="快速开始 / 便捷导航" [nzBordered]="false" nzNoPadding class="mb-lg">
-            <div class="links">
-                <a *ngFor="let item of links" (click)="msg.success(item.title)">{{item.title}}</a>
-            </div>
-        </nz-card>
-        <nz-card nzTitle="XX 指数" [nzBordered]="false" [nzLoading]="loading" class="mb-lg">
-            <ng-template #body>
-                <radar [data]="radarData" [height]="343" [hasLegend]="true"></radar>
-            </ng-template>
-        </nz-card>
-        <nz-card nzTitle="团队" [nzBordered]="false" [nzBodyStyle]="{'padding-top.px': 12, 'padding-bottom.px': 12 }" class="mb-lg">
-            <div class="members">
-                <div nz-row [nzGutter]="48">
-                    <div nz-col [nzSpan]="12" *ngFor="let i of members">
-                        <a (click)="msg.success(i.title)">
-                            <nz-avatar [nzSrc]="i.logo" [nzSize]="'small'"></nz-avatar>
-                            <span class="member">{{i.title}}</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
         </nz-card>
     </div>
 </div>

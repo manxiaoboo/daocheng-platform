@@ -1,0 +1,94 @@
+<pro-header></pro-header>
+<nz-card [nzBordered]="false" *ngIf="orders">
+    <div nz-row>
+        <div nz-col [nzXs]="24" [nzSm]="6" class="header-info">
+            <p class="text-grey-dark">订单总数量</p>
+            <p class="display-2">{{orders.counts.all}}个订单</p>
+            <em></em>
+        </div>
+        <div nz-col [nzXs]="24" [nzSm]="6" class="header-info">
+            <p class="text-grey-dark">未定价订单</p>
+            <p class="display-2">{{orders.counts.sent}}个订单</p>
+            <em></em>
+        </div>
+        <div nz-col [nzXs]="24" [nzSm]="6" class="header-info">
+            <p class="text-grey-dark">已定价订单</p>
+            <p class="display-2">{{orders.counts.return}}个订单</p>
+        </div>
+        <div nz-col [nzXs]="24" [nzSm]="6" class="header-info">
+            <p class="text-grey-dark">已完成订单</p>
+            <p class="display-2">{{orders.counts.done}}个订单</p>
+        </div>
+    </div>
+</nz-card>
+<nz-card [nzBordered]="false" *ngIf="orders">
+    <div class="d-flex align-items-center mb-lg">
+        <h3 class="flex-1 text-lg">订单</h3>
+        <div>
+            <nz-radio-group [(ngModel)]="q.status" [nzSize]="'large'" class="mr-md">
+                <label nz-radio-button [nzValue]="'all'" (click)="refreshData()">
+                    <span>全部</span>
+                </label>
+                <label nz-radio-button [nzValue]="'sent'" (click)="refreshData()">
+                    <span>未定价订单</span>
+                </label>
+                <label nz-radio-button [nzValue]="'return'" (click)="refreshData()">
+                    <span>已定价订单</span>
+                </label>
+                <label nz-radio-button [nzValue]="'done'" (click)="refreshData()">
+                    <span>已完成订单</span>
+                </label>
+                <label nz-radio-button [nzValue]="'deleted'" (click)="refreshData() ">
+                    <span>被删除订单</span>
+                </label>
+            </nz-radio-group>
+            <nz-input [nzPlaceHolder]="'请输入单号'" [(ngModel)]="q.term" [nzSize]="'large'" style="width: 272px;margin-right:10px;"></nz-input>
+            <button nz-button (click)="onSearch()" [nzType]="'primary'" [nzSize]="'large'">
+                    <i class="anticon anticon-search"></i>
+                    <span>查询</span>
+            </button>
+        </div>
+    </div>
+    <button nz-button (click)="clear()" [nzType]="'dashed'" [nzSize]="'large'" class="ant-btn__block mb-sm">
+        <i class="anticon anticon-sync"></i>
+        <span>刷新</span>
+    </button>
+    <nz-list [nzDataSource]="orders.orders" [nzLoading]="loading">
+        <ng-template #item let-item>
+            <nz-list-item [nzContent]="nzContent">
+                <nz-list-item-action>
+                    <a (click)="msg.success('编辑：' + item.title)">查看</a>
+                </nz-list-item-action>
+                <nz-list-item-meta [nzTitle]="nzTitle" [nzDescription]="item.subDescription" [nzAvatar]="nzAvatar">
+                    <ng-template #nzTitle>
+                        <a  target="_blank">单号：{{item.no}}(供应商：{{item.distributor.name}})</a>
+                    </ng-template>
+                    <ng-template #nzAvatar>
+                        <nz-avatar [nzSrc]="'http://'+item.distributor.head" [nzSize]="'large'" [nzShape]="'square'"></nz-avatar>
+                    </ng-template>
+                </nz-list-item-meta>
+                <ng-template #nzContent>
+                    <div class="width-md">
+                        <div class="d-flex text-grey-dark">
+                            <div class="flex-1">
+                                购买人
+                                <p>{{item.farmer.nickName}}</p>
+                            </div>
+                            <div class="text-right">
+                                开始时间
+                                <p>{{item.createdAt | _date}}</p>
+                            </div>
+                        </div>
+                        <nz-progress *ngIf="item.status == 'new'" [ngModel]="25" [nzStrokeWidth]="6"></nz-progress>
+                        <nz-progress *ngIf="item.status == 'sent'" [ngModel]="50" [nzStrokeWidth]="6"></nz-progress>
+                        <nz-progress *ngIf="item.status == 'return'" [ngModel]="75" [nzStrokeWidth]="6"></nz-progress>
+                        <nz-progress *ngIf="item.status == 'done'" [ngModel]="100" [nzStrokeWidth]="6"></nz-progress>
+                    </div>
+                </ng-template>
+            </nz-list-item>
+        </ng-template>
+        <ng-template #pagination>
+            <nz-pagination [nzTotal]="q.status == 'all' ? orders.counts.all-orders.counts.deleted:orders.counts[q.status]" [nzPageSize]="10" [nzSize]="'large'" [(nzPageIndex)]="q.pi" (nzPageIndexChange)="refreshData()"></nz-pagination>
+        </ng-template>
+    </nz-list>
+</nz-card>

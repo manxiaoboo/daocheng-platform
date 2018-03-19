@@ -5,7 +5,7 @@ import { environment } from '../../environments/environment';
 
 import { routes } from './routes';
 import { DashboardWorkplaceComponent } from './dashboard/workplace/workplace.component';
-//user
+// user
 import { VerifyUserComponent } from './verify/verify-user/verify-user.component';
 import { VerifyGoodsComponent } from './verify/verify-goods/verify-goods.component';
 import { UserFarmerManagerComponent } from './user-manager/farmers/farmers.component';
@@ -19,14 +19,17 @@ import { ProUserLoginComponent } from './pro/user/login/login.component';
 import { ProUserRegisterComponent } from './pro/user/register/register.component';
 import { ProUserRegisterResultComponent } from './pro/user/register-result/register-result.component';
 
-//device
+// device
 import { DeviceManagerComponent } from './device-manager/device-manager.component';
 import { DeviceCreateComponent } from './device-manager/device-create/device-create.component';
 import { DeviceSelectorComponent } from './device-manager/device-selector/device-selector';
 
-//goods
+// goods
 import { GoodsManagerComponent } from './goods-manager/goods-manager.component';
 import { GoodsAdComponent } from './goods-manager/goods-ad/goods-ad.component';
+
+// order
+import { OrderManagerComponent } from './order-manager/order-manager.component';
 
 import { AuthResolveService } from './auth.resolve';
 
@@ -60,7 +63,10 @@ import { AuthResolveService } from './auth.resolve';
 
         // goods
         GoodsManagerComponent,
-        GoodsAdComponent
+        GoodsAdComponent,
+
+        // order
+        OrderManagerComponent
     ],
     providers: [
         AuthResolveService
