@@ -28,7 +28,6 @@ export class OrderManagerComponent implements OnInit {
     }
 
     onSearch(): void {
-        console.log('asd');
         this.loading = true;
         if (!this.q.term) {
             this.loading = false;

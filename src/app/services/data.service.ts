@@ -230,7 +230,24 @@ export class DCDataService {
     editDistributor(distributor) {
         const url = environment.host + 'users/distributor-edit';
         return this._httpPost(url, distributor).catch(err => this.handleErr(err));
+    }
 
+    /**
+     * 根据userId获取厂商信息
+     * @param userId 
+     */
+    getManufacturerById(userId) {
+        const url = environment.host + 'users/manufacturerByUserId?userId=' + userId;
+        return this._httpGet(url).catch(err => this.handleErr(err));
+    }
+
+    /**
+     * 修改厂商信息
+     * @param manufacturer 
+     */
+    editManufacturer(manufacturer) {
+        const url = environment.host + 'users/manufacturer-edit';
+        return this._httpPost(url, manufacturer).catch(err => this.handleErr(err));
     }
 
     /**

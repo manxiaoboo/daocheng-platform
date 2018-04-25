@@ -50,6 +50,11 @@
                     "text": "经销商管理",
                     "link": "/user-manager-distributor",
                     "translate": "经销商管理"
+                },
+                {
+                    "text": "厂商管理",
+                    "link": "/user-manager-manufacturer",
+                    "translate": "厂商管理"
                 }]
             },
             {

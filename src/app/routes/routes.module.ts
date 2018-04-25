@@ -13,6 +13,7 @@ import { UserExpertManagerComponent } from './user-manager/experts/experts.compo
 import { UserDomainComponent } from './user-manager/domain/domain.component';
 import { UserDistributorsManagerComponent } from './user-manager/distributors/distributors.component';
 import { DistributorsTypeComponent } from './user-manager/distributors/types/types.component';
+import { UserManufacturersManagerComponent } from './user-manager/manufacturers/manufacturers.component';
 
 // pro
 import { ProUserLoginComponent } from './pro/user/login/login.component';
@@ -50,6 +51,7 @@ import { AuthResolveService } from './auth.resolve';
         UserDomainComponent,
         UserDistributorsManagerComponent,
         DistributorsTypeComponent,
+        UserManufacturersManagerComponent,
 
         // pro
         ProUserLoginComponent,

@@ -10,6 +10,8 @@ import { UserExpertManagerComponent } from './user-manager/experts/experts.compo
 import { UserDomainComponent } from './user-manager/domain/domain.component';
 import { UserDistributorsManagerComponent } from './user-manager/distributors/distributors.component';
 import { DistributorsTypeComponent } from './user-manager/distributors/types/types.component';
+import { UserManufacturersManagerComponent } from './user-manager/manufacturers/manufacturers.component';
+
 
 // pro
 import { ProUserLayoutComponent } from '../layout/pro/user/user.component';
@@ -46,6 +48,7 @@ export const routes = [
             { path: 'user-manager-domain', component: UserDomainComponent, data: { translate: '领域维护' } },
             { path: 'distributor-types', component: DistributorsTypeComponent, data: { translate: '商品类型维护' } },
             { path: 'user-manager-distributor', component: UserDistributorsManagerComponent, data: { translate: '经销商管理' } },
+            { path: 'user-manager-manufacturer', component: UserManufacturersManagerComponent, data: { translate: '厂商管理' } },
             { path: 'device-manager', component: DeviceManagerComponent, data: { translate: '设备列表' } },
             { path: 'device-create', component: DeviceCreateComponent, data: { translate: '创建设备' } },
             { path: 'goods-manager', component: GoodsManagerComponent, data: { translate: '商品管理'} },
