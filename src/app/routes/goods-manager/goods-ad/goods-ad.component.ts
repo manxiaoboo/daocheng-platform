@@ -80,6 +80,10 @@ export class GoodsAdComponent implements OnInit {
 
     }
 
+    onSearch() {
+
+    }
+
     pageChange(e) {
 
     }
