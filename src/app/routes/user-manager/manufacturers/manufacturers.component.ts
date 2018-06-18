@@ -56,6 +56,7 @@ export class UserManufacturersManagerComponent implements OnInit, OnDestroy {
         this.loading = true;
         this.dataservice.getUsersByRole(this.manufacturerRole.id).then((fs: any) => {
             this.manufacturers = fs.json();
+            console.info(this.manufacturers)
             this.manufacturers.forEach(f => {
                 this.roles.forEach(r => {
                     if (f.roleId === r.id) {
@@ -168,6 +169,56 @@ export class UserManufacturersManagerComponent implements OnInit, OnDestroy {
                     this.loading = false;
                     this.msg.error('抱歉，停用失败');
                     this.modalEdit = false;
+                    this.handleValidateDatas();
+                });
+            },
+            onCancel: () => {
+
+            }
+        };
+        this.modal.confirm(option);
+    }
+
+    openShare(user) {
+        const option = {
+            title: '危险',
+            content: '你确认要为此账户开通分享吗？',
+            onOk: () => {
+                this.loading = true;
+                user.canShare = true;
+                user.shareDate = new Date();
+                this.dataservice.editUser(user).then(e => {
+                    this.loading = false;
+                    this.msg.success('开通分享成功');
+                    this.getManufacturers();
+                }).catch(err => {
+                    this.loading = false;
+                    this.msg.error('抱歉，开通分享失败');
+                    this.handleValidateDatas();
+                });
+            },
+            onCancel: () => {
+
+            }
+        };
+        this.modal.confirm(option);
+    }
+
+    closeShare(user) {
+        const option = {
+            title: '危险',
+            content: '你确认要关闭此账户的分享功能吗？',
+            onOk: () => {
+                this.loading = true;
+                user.canShare = false;
+                user.shareDate = null;
+                this.dataservice.editUser(user).then(e => {
+                    this.loading = false;
+                    this.msg.success('关闭分享成功');
+                    this.getManufacturers();
+                }).catch(err => {
+                    this.loading = false;
+                    this.msg.error('抱歉，关闭分享失败');
                     this.handleValidateDatas();
                 });
             },

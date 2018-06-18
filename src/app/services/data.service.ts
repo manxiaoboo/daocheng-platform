@@ -224,6 +224,15 @@ export class DCDataService {
     }
 
     /**
+     * 获取经销商所有商品
+     * @param distributorId 
+     */
+    getDistributorGoods(distributorId) {
+        const url = environment.host + 'users/distributorGoodsById?distributorId=' + distributorId;
+        return this._httpGet(url).catch(err => this.handleErr(err));
+    }
+
+    /**
      * 修改经销商信息
      * @param expert
      */

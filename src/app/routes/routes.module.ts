@@ -12,6 +12,7 @@ import { UserFarmerManagerComponent } from './user-manager/farmers/farmers.compo
 import { UserExpertManagerComponent } from './user-manager/experts/experts.component';
 import { UserDomainComponent } from './user-manager/domain/domain.component';
 import { UserDistributorsManagerComponent } from './user-manager/distributors/distributors.component';
+import { DistributorsDetailComponent } from './user-manager/distributors/detail/detail.component';
 import { DistributorsTypeComponent } from './user-manager/distributors/types/types.component';
 import { UserManufacturersManagerComponent } from './user-manager/manufacturers/manufacturers.component';
 
@@ -50,6 +51,7 @@ import { AuthResolveService } from './auth.resolve';
         UserExpertManagerComponent,
         UserDomainComponent,
         UserDistributorsManagerComponent,
+        DistributorsDetailComponent,
         DistributorsTypeComponent,
         UserManufacturersManagerComponent,
 

@@ -179,7 +179,7 @@
 </nz-card>
 
 <nz-modal *ngIf="currentAuditUserDone" [nzVisible]="modalVisible2" [nzStyle]="{'margin-top':'3%'}" [nzCancelText]="'取消'"
-    [nzOkText]="'确定'" [nzTitle]="'已审核用户('+currentAuditUserDone.nickName+')'" [nzConfirmLoading]="loading" [nzContent]="modalContent"
+    [nzOkText]="'确定'" [nzTitle]="'已审核用户('+currentAuditUserDone.userName+')'" [nzConfirmLoading]="loading" [nzContent]="modalContent"
     (nzOnCancel)="modalVisible2=false" (nzOnOk)="viewOk()">
     <ng-template #modalContent>
         <div nz-form-item class="d-flex">
@@ -262,7 +262,7 @@
 </nz-modal>
 
 <nz-modal *ngIf="currentAuditUser" [nzVisible]="modalVisible" [nzStyle]="{'margin-top':'3%'}" [nzCancelText]="'取消'" [nzOkText]="'接受审核'"
-    [nzTitle]="'审核用户('+currentAuditUser.nickName+')'" [nzConfirmLoading]="loading" [nzContent]="modalContent" (nzOnCancel)="modalVisible=false"
+    [nzTitle]="'审核用户('+currentAuditUser.userName+')'" [nzConfirmLoading]="loading" [nzContent]="modalContent" (nzOnCancel)="modalVisible=false"
     (nzOnOk)="accept()">
     <ng-template #modalContent>
         <div nz-form-item class="d-flex">

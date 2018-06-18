@@ -1,0 +1,112 @@
+<pro-header [title]="'经销商：'+ distributor.name" *ngIf="distributor && user">
+    <ng-template #logo>
+        <img [src]="'http://'+ distributor.head">
+    </ng-template>
+    <ng-template #action>
+        <nz-button-group [nzSize]="'large'">
+            <button nz-button *ngIf="!user.canShare" (click)="openShare(user)">开通分享</button>
+            <button nz-button *ngIf="user.canShare" (click)="closeShare(user)">关闭分享</button>
+            <button nz-button *ngIf="!user.isValidate" (click)="startUser(user)">启用账户</button>
+            <button nz-button *ngIf="user.isValidate" (click)="stopUser(user)">停用账户</button>
+        </nz-button-group>
+    </ng-template>
+    <ng-template #content>
+        <desc-list size="small" col="3">
+            <desc-list-item term="地址">{{distributor.address}}</desc-list-item>
+            <desc-list-item term="联系人">{{distributor.contact}}</desc-list-item>
+            <desc-list-item term="联系电话">{{distributor.contactPhone}}</desc-list-item>
+        </desc-list>
+        <nz-divider class="mb-lg"></nz-divider>
+        <desc-list size="small" col="1">
+            <desc-list-item term="简介">{{distributor.intro}}</desc-list-item>
+        </desc-list>
+    </ng-template>
+    <ng-template #extra>
+        <div nz-row>
+            <div nz-col nzXs="24" nzSm="12">
+                <p class="text-grey">账户状态</p>
+                <p class="text-lg">{{user.isValidate? '开通':'未开通'}}</p>
+            </div>
+            <div nz-col nzXs="24" nzSm="12">
+                <p class="text-grey">分享状态
+                    <span *ngIf="user.canShare">（{{user.shareDate | _date}}）</span>
+                </p>
+                <p class="text-lg">{{user.canShare? '开通分享':'关闭分享'}}</p>
+            </div>
+        </div>
+    </ng-template>
+</pro-header>
+<nz-card [nzBordered]="false" nzTitle="用户信息" class="mb-lg" *ngIf="user && distributor">
+    <desc-list class="mb-lg" col="2">
+        <desc-list-item term="用户名">{{user.userName}}</desc-list-item>
+        <desc-list-item term="昵称">{{user.nickName}}</desc-list-item>
+        <desc-list-item term="电话">{{user.phone}}</desc-list-item>
+        <desc-list-item term="地址">{{user.province}}/{{user.city}}/{{user.area}}</desc-list-item>
+    </desc-list>
+</nz-card>
+<nz-card [nzBordered]="false" nzTitle="商品列表" class="mb-lg" *ngIf="user && distributor && goods">
+    <nz-table #nzTable [nzDataSource]="goods" [nzPageSize]="q.ps">
+        <thead nz-thead>
+            <tr>
+                <th nz-th>
+                    <span>商品名称</span>
+                </th>
+                <th nz-th>
+                    <span>商品类型</span>
+                </th>
+                <th nz-th>
+                    <span>单位</span>
+                </th>
+                <th nz-th>
+                    <span>是否推广</span>
+                </th>
+                <th nz-th>
+                    <span>热度</span>
+                </th>
+                <th nz-th>
+                    <span>浏览量</span>
+                </th>
+                <th nz-th>
+                    <span>成交量</span>
+                </th>
+                <th nz-th>
+                    <span>创建日期</span>
+                </th>
+                <th nz-th>
+                    <span>操作</span>
+                </th>
+            </tr>
+        </thead>
+        <tbody nz-tbody>
+            <tr nz-tbody-tr *ngFor="let i of nzTable.data">
+                <td nz-td>{{i.name}}</td>
+                <td nz-td>{{i.type_ele.name}}</td>
+                <td nz-td>{{i.unit}}</td>
+                <td nz-td>
+                    <nz-badge *ngIf="i.isAd" [nzStatus]="'success'" [nzText]="'正在推广'"></nz-badge>
+                    <span *ngIf="!i.isAd">-</span>
+                </td>
+                <td nz-td>{{i.hot}}</td>
+                <td nz-td>{{i.totalView}}次</td>
+                <td nz-td>{{i.totalDeal}}笔</td>
+                <td nz-td>{{i.createdAt | _date}}</td>
+                <td nz-td>
+                    <a (click)="viewGoods(i)">商品图片</a>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</nz-card>
+
+
+<nz-modal *ngIf="currentGoods" [nzVisible]="modalView" [nzStyle]="{'margin-top':'3%'}" [nzWrapClassName]="'modal-lg'" [nzCancelText]="'取消'"
+    [nzOkText]="'确认'" [nzTitle]="'商品信息('+currentGoods.name+')'" [nzContent]="modalContent1" (nzOnCancel)="modalView=false" (nzOnOk)="modalView=false">
+    <ng-template #modalContent1>
+        <fieldset>
+            <legend>{{currentGoods.intro}}</legend>
+            <div class="text-center">
+                <img [src]="'http://'+p" *ngFor="let p of currentGoods.photos_arr"/>
+            </div>
+        </fieldset>
+    </ng-template>
+</nz-modal>

@@ -1,11 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
-import { getTimeDistance, yuan, fixedZero } from '@delon/abc';
 import { DCDataService } from '../../../services/data.service';
 import { DCAuthService } from '../../../services/auth.service';
 import { DeviceDataService } from '../../../services/device.data.service';
 import * as _ from "lodash";
-import { isSameDay } from 'date-fns';
 
 
 
@@ -41,7 +40,8 @@ export class UserDistributorsManagerComponent implements OnInit, OnDestroy {
         private modal: NzModalService,
         private dataservice: DCDataService,
         private auth: DCAuthService,
-        private dds: DeviceDataService
+        private dds: DeviceDataService,
+        private router: Router
     ) { }
 
     ngOnInit() {
@@ -178,6 +178,56 @@ export class UserDistributorsManagerComponent implements OnInit, OnDestroy {
         this.modal.confirm(option);
     }
 
+    openShare(user) {
+        const option = {
+            title: '危险',
+            content: '你确认要为此账户开通分享吗？',
+            onOk: () => {
+                this.loading = true;
+                user.canShare = true;
+                user.shareDate = new Date();
+                this.dataservice.editUser(user).then(e => {
+                    this.loading = false;
+                    this.msg.success('开通分享成功');
+                    this.getDistributors();
+                }).catch(err => {
+                    this.loading = false;
+                    this.msg.error('抱歉，开通分享失败');
+                    this.handleValidateDatas();
+                });
+            },
+            onCancel: () => {
+
+            }
+        };
+        this.modal.confirm(option);
+    }
+
+    closeShare(user) {
+        const option = {
+            title: '危险',
+            content: '你确认要关闭此账户的分享功能吗？',
+            onOk: () => {
+                this.loading = true;
+                user.canShare = false;
+                user.shareDate = null;
+                this.dataservice.editUser(user).then(e => {
+                    this.loading = false;
+                    this.msg.success('关闭分享成功');
+                    this.getDistributors();
+                }).catch(err => {
+                    this.loading = false;
+                    this.msg.error('抱歉，关闭分享失败');
+                    this.handleValidateDatas();
+                });
+            },
+            onCancel: () => {
+
+            }
+        };
+        this.modal.confirm(option);
+    }
+
     viewOk() {
         this.modalVisible3 = false;
     }
@@ -215,6 +265,10 @@ export class UserDistributorsManagerComponent implements OnInit, OnDestroy {
             });
         }
         this.loading = false;
+    }
+
+    goDetail(item) {
+        this.router.navigate(['/distributor-detail/' + item.id])
     }
 
     dataChange(e) {
